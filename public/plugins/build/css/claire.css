@@ -1,0 +1,38 @@
+.right_col{
+  /* height: 100vh; */
+}
+
+.navbar-nav{
+  flex-direction: initial;
+  justify-content: flex-end;
+}
+
+label{
+  font-size: 16px;
+}
+
+.x_panel{
+  background: none !important;
+  border: none !important;
+}
+
+/* .title-bar{
+  width: 10px;
+  height: 45px;
+  margin: 0 10px;
+  background: #ffc107;
+} */
+
+.page-title{
+  display: flex;
+  margin: 0 30px;
+  margin-bottom: 50px;
+}
+
+.ct{
+  text-align: center;
+}
+
+.pad25{
+  padding: 0 25px !important;
+}
