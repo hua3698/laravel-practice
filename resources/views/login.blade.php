@@ -1,94 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('login_template')
 
-    <title>Gentelella Alela! | 登入</title>
+@section('script_js')
+<script type="text/javascript">
 
-    <!-- Bootstrap -->
-    <link href="{{ asset('plugins/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="{{ asset('plugins/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="{{ asset('plugins/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
-    <!-- Animate.css -->
-    <link href="{{ asset('plugins/vendors/animate.css/animate.min.css') }}" rel="stylesheet">
 
-    <!-- Custom Theme Style -->
-    <link href="{{ asset('plugins/build/css/custom.css') }}" rel="stylesheet">
-  </head>
+$(function() {
 
-  <body class="login">
-    <div>
-      <a class="hiddenanchor" id="signup"></a>
-      <a class="hiddenanchor" id="signin"></a>
+    let init_event = function () {
+        $('#btn_register').on('click', function (e) {
 
-      <div class="login_wrapper">
-        <div class="animate form login_form">
-          <section class="login_content">
-            <form>
-              <h1>Login Form</h1>
-              <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
-              </div>
-              <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
-              </div>
-              <div>
-                <a class="btn btn-default submit" href="{{ asset('pluginsdex.html') }}">Log in</a>
-                <a class="reset_pass" href="#">Lost your password?</a>
-              </div>
-              <div class="clearfix"></div>
-              <div class="separator">
-                <p class="change_link">New to site?
-                  <a href="#signup" class="to_register"> Create Account </a>
-                </p>
-                <div class="clearfix"></div>
-              </div>
-            </form>
-          </section>
-        </div>
+            e.preventDefault()
 
-        <div id="register" class="animate form registration_form">
-          <section class="login_content">
-            <form>
-              <h1>Create Account</h1>
-              <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
-              </div>
-              <div>
-                <input type="email" class="form-control" placeholder="Email" required="" />
-              </div>
-              <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
-              </div>
-              <div>
-                <a class="btn btn-default submit" href="index.html">Submit</a>
-              </div>
+            let name = $('#register input[type=text]').val()
+            let email = $('#register input[type=email]').val()
+            let password = $('#register input[type=password]').val()
 
-              <div class="clearfix"></div>
+            if(!name || !email || !password) return
 
-              <div class="separator">
-                <p class="change_link">Already a member ?
-                  <a href="#signin" class="to_register"> Log in </a>
-                </p>
+            let post_data = {}
+            post_data.name = name
+            post_data.email = email
+            post_data.password = password
 
-                <div class="clearfix"></div>
-                <br />
+            $.post("{{ route('signUp') }}", post_data, function(re) {
+                location.href = 'login#signin'
+            })
+        })
 
-                <div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
-                </div>
-              </div>
-            </form>
-          </section>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+        $('#btn_login').on('click', function (e) {
+            e.preventDefault()
+
+            let name = $('#login input[type=text]').val()
+            let password = $('#login input[type=password]').val()
+
+            if(!name || !password) return
+
+            let post_data = {}
+            post_data.name = name
+            post_data.password = password
+
+            $.post("{{ route('signIn') }}", post_data, function(re) {
+                location.href = 'greet'
+            })
+        })
+    }
+
+    let init_login_Page = function () {
+        $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    }
+
+    init_login_Page()
+    init_event()
+})
+</script>
+
+@endsection
+

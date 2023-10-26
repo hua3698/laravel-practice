@@ -17,10 +17,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('login', function () {
-    return view('login');
-});
-
-Route::get('/greet', function () {
+Route::get('greet', function () {
     return 'hello world';
 });
+
+Route::get('login', function () {
+    return view('login');
+})->name('login');
+
+Route::post('signUp', 'App\Http\Controllers\LoginController@signUp')->name('signUp');
+Route::post('signIn', 'App\Http\Controllers\LoginController@signIn')->name('signIn');
+
