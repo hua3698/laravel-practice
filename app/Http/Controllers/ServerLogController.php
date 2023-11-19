@@ -8,11 +8,14 @@ use stdClass;
 
 class ServerLogController extends Controller
 {
-    //
-    public function createLog (Request $request)
+    const LOG_STATUS_SHOW = 1;
+    const LOG_STATUS_HIDE = 0;
+
+    // 新增機房日誌
+    public function createLog(Request $request)
     {
         // $request->dd();
-        
+
         $validated = $request->validate([
             'maintain_type' => 'required|integer',
             'maintain_man' => 'required|string',
@@ -22,31 +25,71 @@ class ServerLogController extends Controller
             'work_desc' => 'required|string',
         ]);
 
+        $seq_number = $this->getSequenceNo();
+
         $server_log = new ServerRoomLog();
 
         $server_log->login_user_id = 5;
-        $server_log->maintain_number = 123;
+        $server_log->server_log_id = $seq_number;
         $server_log->maintain_man = $validated['maintain_man'];
-        $server_log->status = 1;
+        $server_log->log_status = 1;
         $server_log->types = $validated['maintain_type'];
         $server_log->maintain_description = $validated['work_desc'];
         $server_log->remark = '';
-        $server_log->enter_time = $validated['maintain_date'] . ' ' .$validated['entrance_time'];
-        $server_log->exit_time = $validated['maintain_date'] . ' ' .$validated['exit_time'];
+        $server_log->maintain_date = $validated['maintain_date'];
+        $server_log->enter_time = $validated['entrance_time'];
+        $server_log->exit_time = $validated['exit_time'];
 
         $server_log->save();
 
-        return url('greet');
+        return redirect()->route('log_list', ['create_success' => '新增成功']);
     }
 
-    public function showLogList () {
-        $server_log = ServerRoomLog::orderByDesc('created_at')
-                                    ->get();
+    // 顯示機房日誌列表
+    public function showLogList(Request $request)
+    {
+        $server_log = ServerRoomLog::where('log_status', self::LOG_STATUS_SHOW)
+                    ->orderByDesc('created_at')
+                    ->get();
 
-        return view('log_list', ['lists' => $server_log]);
+        $response = [];
+        $response['lists'] = $server_log;
+
+        if (isset($request['create_success'])) {
+            $response['create_success'] = $request['create_success'];
+        }
+
+        return view('log_list', $response);
     }
 
-    public function showSingleLog () {
-        
+    public function showSingleLog(Request $request)
+    {
+    }
+
+    public function editSingleLog(Request $request)
+    {
+    }
+
+    public function deleteSingleLog($log_id)
+    {
+        // dd($log_id);
+        ServerRoomLog::where('server_log_id', $log_id)
+                    ->update(['log_status' => 0]);
+        // return redirect()->route('log_list', ['create_success' => '刪除成功']);
+
+    }
+
+    protected function getSequenceNo()
+    {
+
+        $today = date('Ymd');
+        $latestLog = ServerRoomLog::orderBy('created_at', 'DESC')->first();
+
+        if (!$latestLog) {
+            $latestLog = new stdClass();
+            $latestLog->id = 0;
+        }
+
+        return $today . str_pad($latestLog->id + 1, 4, "0", STR_PAD_LEFT);
     }
 }

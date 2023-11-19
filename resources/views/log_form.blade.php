@@ -17,8 +17,8 @@
     <div class="bread_crumb">
         <i class="bi bi-house-fill"></i>
         <span class="path"><a href="{{ url('home') }}">首頁</a></span>
-        <span class="path">日誌</span>
-        <span class="path">新增日誌</span>
+        <span class="path"><a href="{{ url('log/list') }}">機房日誌</a></span>
+        <span class="path">新增機房日誌</span>
     </div>
 
     @if ($errors->any())
@@ -37,13 +37,13 @@
 
     <div class="main">
         <div class="title">
-            <p>新增日誌</p>
+            <p>新增機房日誌</p>
         </div>
         <div class="table_container">
             <form class="row g-3" action="{{ url('log/create') }}" method="POST">
                 @csrf
 
-                <div class="mb-3 col-12">
+                <div class="mb-3 col-12 maintain_type_div">
                     <label for="">維護類型：</label>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio1" value="1" checked>

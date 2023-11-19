@@ -81,6 +81,10 @@ body {
     justify-content: space-between;
 }
 
+.sub_list {
+    background-color: #fff;
+}
+
 .bread_crumb {
     height: 50px;
     border-bottom: 1px solid #ddd;
@@ -125,14 +129,19 @@ body {
     margin-bottom: 20px;
 }
 
-.addlog::after {
+#btn_add_log {
+    padding: 2px;
+    border-bottom: 2px solid;
+}
+/* .addlog::after {
     content: "";
     display: block;
-    width: 65px;
+    width: 95px;
     height: 1px;
     background-color: #225b97;
     /* background-color: #9786c0; */
-}
+} 
+*/
 
 .addlog:hover {
     color: #7e7e7e;
@@ -143,6 +152,7 @@ body {
 }
 
 .btn_delete_log {
+    vertical-align: middle;
     cursor: pointer;
 }
 
@@ -195,4 +205,8 @@ table {
 .error_msg_close {
     padding: 10px;
     cursor: pointer;
+}
+
+.maintain_type_div .form-check-inline {
+    margin: 0 40px;
 }

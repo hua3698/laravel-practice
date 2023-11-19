@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('server_room_log', function (Blueprint $table) {
             $table->id();
             $table->foreignId('login_user_id');
-            $table->integer('maintain_number');
+            $table->string('server_log_id');
             $table->string('maintain_man');
-            $table->tinyInteger('status');
+            $table->tinyInteger('log_status')->comment('0:刪除; 1:顯示');
             $table->tinyInteger('types');
             $table->text('maintain_description');
             $table->text('remark')->nullable();
