@@ -210,3 +210,20 @@ table {
 .maintain_type_div .form-check-inline {
     margin: 0 40px;
 }
+
+.div_pagination {
+    display: flex;
+    align-items: baseline;
+}
+
+.select_page {
+    display: flex;
+    margin-left: 60px;
+    align-items: baseline;
+}
+
+.select_page .form-select {
+    width: auto;
+    margin: 0 10px;
+    line-height: 1;
+}

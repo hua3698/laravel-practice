@@ -10,6 +10,7 @@ class ServerLogController extends Controller
 {
     const LOG_STATUS_SHOW = 1;
     const LOG_STATUS_HIDE = 0;
+    const DATA_PER_PAGE = 5;
 
     // 新增機房日誌
     public function createLog(Request $request)
@@ -50,10 +51,17 @@ class ServerLogController extends Controller
     {
         $server_log = ServerRoomLog::where('log_status', self::LOG_STATUS_SHOW)
                     ->orderByDesc('created_at')
-                    ->get();
-
+                    ->paginate(self::DATA_PER_PAGE);
+                    // ->get();
+                    
+        $server_log = $server_log->toArray();
+// dd($server_log);
         $response = [];
-        $response['lists'] = $server_log;
+        $response['lists'] = $server_log['data'];
+        $response['from'] = $server_log['from'];
+        $response['total'] = $server_log['total'];
+        $response['current_page'] = $server_log['current_page'];
+        $response['last_page'] = $server_log['last_page'];
 
         if (isset($request['create_success'])) {
             $response['create_success'] = $request['create_success'];

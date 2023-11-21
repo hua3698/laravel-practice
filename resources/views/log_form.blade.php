@@ -17,7 +17,7 @@
     <div class="bread_crumb">
         <i class="bi bi-house-fill"></i>
         <span class="path"><a href="{{ url('home') }}">首頁</a></span>
-        <span class="path"><a href="{{ url('log/list') }}">機房日誌</a></span>
+        <span class="path"><a href="{{ url('log/list?page=1') }}">機房日誌</a></span>
         <span class="path">新增機房日誌</span>
     </div>
 

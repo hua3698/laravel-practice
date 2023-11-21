@@ -48,7 +48,7 @@
                     @if (!empty($lists))
                     @foreach ($lists as $index => $list)
                     <tr>
-                        <th scope="row">{{ $index + 1 }}</th>
+                        <th scope="row">{{ $from + $index }}</th>
                         <td class="server_log_id">{{ $list['server_log_id'] }}</td>
                         <td class="maintain_man">{{ $list['maintain_man'] }}</td>
                         <td class="types">{{ $list['types'] }}</td>
@@ -65,6 +65,37 @@
                     @endif
                 </tbody>
             </table>
+        </div>
+        <div class="div_pagination">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="{{ route('log_list', ['page'=>$current_page -1]) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    @for ($i = 1; $i <= $last_page; $i++) <li class="page-item"><a class="page-link" href="{{ route('log_list', ['page'=>$i]) }}">{{ $i }}</a></li>
+                        @endfor
+
+                        <li class="page-item">
+                            <a class="page-link" href="{{ route('log_list', ['page'=>$last_page]) }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                </ul>
+            </nav>
+            <div class="select_page">
+                <span>每一頁</span>
+                <!-- <div class="row"> -->
+                <select class="form-select">
+                    <option value="1" selected>5</option>
+                    <option value="2">10</option>
+                    <option value="3">20</option>
+                </select>
+                <!-- </div> -->
+                <span>筆, 共 {{ $total }} 筆</span>
+            </div>
         </div>
     </div>
 

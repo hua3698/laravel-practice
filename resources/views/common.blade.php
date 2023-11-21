@@ -40,7 +40,7 @@
             </div>
             <div class="nav">
                 <div class="nav_link"><span><a href="{{ url('home')}}">首頁</a></span></div>
-                <div class="nav_link"><span><a href="{{ url('log/list') }}">機房日誌</a></span></div>
+                <div class="nav_link"><span><a href="{{ url('log/list?page=1') }}">機房日誌</a></span></div>
                 <div class="nav_link"><span>首頁</span></div>
                 <div class="nav_link"><span>首頁</span></div>
             </div>
@@ -53,7 +53,7 @@
                 <div class="left_box">
                     <div class="left_box_item main_list" data-tag="log">
                         <div class="item_dropdown">
-                            <a href="{{ url('log/list') }}">機房日誌</a>
+                            <a href="{{ url('log/list?page=2') }}">機房日誌</a>
                             <i class="bi bi-chevron-down"></i>
                         </div>
                     </div>

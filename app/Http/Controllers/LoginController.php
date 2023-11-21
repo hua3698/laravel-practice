@@ -43,8 +43,17 @@ class LoginController extends Controller
         if(!Auth::attempt($validateData)) {
             return response('登入失敗',401);
         }
+        else {
+            session(['username' => $request->name]);
+        }
 
         $user = $request->user();
         return $user;
+    }
+
+    public function logout()
+    {
+        session()->forget('username');
+        return redirect('/');
     }
 }
