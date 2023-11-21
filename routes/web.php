@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Authenticate;
-use PragmaRX\Google2FAQRCode\Google2FA;
 
+use PragmaRX\Google2FAQRCode\Google2FA;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,14 +54,26 @@ Route::put('log/{log_id}/delete', 'App\Http\Controllers\ServerLogController@dele
 Route::get('test', function () {
     $google2fa  = new Google2FA();
         
-        $companyName = 'a';
-        $companyEmail = 'a';
-        $secretKey = $google2fa->generateSecretKey();
+    $companyName = 'a';
+    $companyEmail = 'a';
+    $secretKey = $google2fa->generateSecretKey();
+
+    $inlineUrl = $google2fa->getQRCodeInline(
+        $companyName,
+        $companyEmail,
+        $secretKey
+    );
     
-        $inlineUrl = $google2fa->getQRCodeInline(
-            $companyName,
-            $companyEmail,
-            $secretKey
-        );
-    dd($inlineUrl);
+    // $writer = new Writer(
+    //     new ImageRenderer(
+    //         new RendererStyle(400),
+    //         new ImagickImageBackEnd()
+    //         )
+    //     );
+        
+        // $qrcode_image = base64_encode($writer->writeString($inlineUrl));
+        return view('home', ['inlineUrl' => $inlineUrl]);
+        
+    // $url = $google2fa->getQRCodeUrl($companyName, $companyEmail, $secretKey);
+    // return view('home', ['url' => $url]);
 });

@@ -22,7 +22,7 @@ return [
     /*
      * Auth container binding.
      */
-    'auth' => 'auth',
+    'auth' => 'auth2fa',
 
     /*
      * Guard.
@@ -57,7 +57,7 @@ return [
     /*
      * One Time Password View.
      */
-    'view' => 'google2fa.index',
+    'view' => 'home',
 
     /*
      * One Time Password error message.

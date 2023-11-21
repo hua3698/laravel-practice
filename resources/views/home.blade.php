@@ -14,6 +14,8 @@
     </div>
     <div class="main">
         <h1>首頁</h1>
+        <img src="{!! $inlineUrl !!}">
+
     </div>
 </div>
 
