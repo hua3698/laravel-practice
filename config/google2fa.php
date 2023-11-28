@@ -37,7 +37,7 @@ return [
     /*
      * One Time Password request input name.
      */
-    'otp_input' => 'one_time_password',
+    'otp_input' => 'google2fa_otp',
 
     /*
      * One Time Password Window.

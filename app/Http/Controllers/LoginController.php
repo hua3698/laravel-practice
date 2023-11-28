@@ -5,26 +5,33 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User; //引入user model
 use Illuminate\Support\Facades\Auth;
+use PragmaRX\Google2FAQRCode\Google2FA;
 
 class LoginController extends Controller
 {
-    //
+    const ENABLE_MEMBER = 1;
+
     public function createAccount(request $request) {
         echo 'aaaaaaaaa';
     }
 
-    public function signup(Request $request)
+    public function signUp(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|max:100',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string'
+            'password' => 'required|string|max:255'
         ]);
+
+        $google2fa  = new Google2FA();
+        $google2fa_key = $google2fa->generateSecretKey();
 
         $user = new User([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => password_hash($validated['password'], PASSWORD_DEFAULT ),
+            'google2fa_secret' => $google2fa_key,
+            'member_status' => self::ENABLE_MEMBER
         ]);
 
         $user->save();
@@ -35,25 +42,53 @@ class LoginController extends Controller
 
     public function signIn(Request $request)
     {
-        $validateData = $request->validate([
-            'name' => 'required|string',
-            'password' => 'required|string'
-        ]);
+        // try
+        // {
+            $validated = $request->validate([
+                'name' => 'required|string',
+                'password' => 'required|string',
+                'google2fa_otp' => 'required|max:6'
+            ]);
 
-        if(!Auth::attempt($validateData)) {
-            return response('登入失敗',401);
-        }
-        else {
+            if(!Auth::attempt(['name' => $validated['name'], 'password' => $validated['password']]))
+            {
+                throw new \Exception();
+            }
+
+            $User = User::where('name', $validated['name'])
+                        ->first();
+
+            $User = $User->toArray();
+            $valid = $this->verifyGoogle2FA($User, $validated['google2fa_otp']);
+
+            if($valid === false) {
+                throw new \Exception();
+            }
+
             session(['username' => $request->name]);
-        }
-
-        $user = $request->user();
-        return $user;
+            
+            return response('success', 200);
+        // }
+        // catch (\Exception $e) 
+        // {
+        //     return response('login failed', 400);
+        // }
     }
 
     public function logout()
     {
         session()->forget('username');
-        return redirect('/');
+        return redirect('/home');
     }
+
+    private function verifyGoogle2FA($User, $otp) 
+    {
+        $secretKey = $User['google2fa_secret'];
+
+        $google2fa  = new Google2FA();
+        $window = 8;
+
+        return $google2fa->verifyKey($secretKey, $otp, $window);
+    }
+
 }

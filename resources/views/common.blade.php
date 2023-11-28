@@ -39,10 +39,14 @@
                 <span>機房網站</span>
             </div>
             <div class="nav">
-                <div class="nav_link"><span><a href="{{ url('home')}}">首頁</a></span></div>
+                <!-- <div class="nav_link"><span><a href="{{ url('home')}}">首頁</a></span></div>
                 <div class="nav_link"><span><a href="{{ url('log/list?page=1') }}">機房日誌</a></span></div>
-                <div class="nav_link"><span>首頁</span></div>
-                <div class="nav_link"><span>首頁</span></div>
+                <div class="nav_link"><span>會員管理</span></div> -->
+                @auth
+                    <div class="nav_link" style="color: #f7f7f7;">{{ Auth::user()->name }}，<span><a href="{{ url('logout')}}">登出</a></span></div>
+                @else
+                    <div class="nav_link"><span><a href="{{ url('login')}}">登入</a></span></div>
+                @endauth
             </div>
         </div>
     </div>
@@ -53,8 +57,8 @@
                 <div class="left_box">
                     <div class="left_box_item main_list" data-tag="log">
                         <div class="item_dropdown">
-                            <a href="{{ url('log/list?page=2') }}">機房日誌</a>
-                            <i class="bi bi-chevron-down"></i>
+                            <a href="{{ url('log/list?page=1') }}" class="col-9">機房日誌</a>
+                            <i class="bi bi-chevron-down col-3"></i>
                         </div>
                     </div>
                     <div class="left_box_item sub_list" data-tag="log">
@@ -62,8 +66,16 @@
                             <a href="{{ url('log/form') }}">新增機房日誌</a>
                         </div>
                     </div>
-                    <div class="left_box_item">
-
+                    <div class="left_box_item main_list" data-tag="member">
+                        <div class="item_dropdown">
+                            <a href="{{ url('member') }}" class="col-9">會員管理</a>
+                            <i class="bi bi-chevron-down col-3"></i>
+                        </div>
+                    </div>
+                    <div class="left_box_item sub_list" data-tag="member">
+                        <div class="">
+                            <a href="{{ url('log/form') }}">新增會員</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,7 +96,7 @@
 
             $('.main_list').on('click', function() {
                 let tag = $(this).data('tag')
-
+console.log(tag)
                 $('.sub_list').each(function() {
                     var sub_tag = $(this).data('tag');
                     if (sub_tag === tag) {

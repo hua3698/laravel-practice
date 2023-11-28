@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         //
-        Schema::table('server_room_log', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->renameColumn('maintain_number', 'server_log_id');
         });
     }

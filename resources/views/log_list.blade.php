@@ -46,22 +46,22 @@
                 </thead>
                 <tbody>
                     @if (!empty($lists))
-                    @foreach ($lists as $index => $list)
-                    <tr>
-                        <th scope="row">{{ $from + $index }}</th>
-                        <td class="server_log_id">{{ $list['server_log_id'] }}</td>
-                        <td class="maintain_man">{{ $list['maintain_man'] }}</td>
-                        <td class="types">{{ $list['types'] }}</td>
-                        <td>
-                            <span class="work_description">更多</span>
-                        </td>
-                        <td>{{ $list['maintain_date']}} {{ $list['enter_time'] }} ~ {{ $list['exit_time'] }}</td>
-                        <td>{{ $list['created_at'] }}</td>
-                        <td class="btn_delete_log" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            <i class="bi bi-trash3"></i>
-                        </td>
-                    </tr>
-                    @endforeach
+                        @foreach ($lists as $index => $list)
+                        <tr>
+                            <th scope="row">{{ $from + $index }}</th>
+                            <td class="server_log_id">{{ $list['server_log_id'] }}</td>
+                            <td class="maintain_man">{{ $list['maintain_man'] }}</td>
+                            <td class="types">{{ $list['types'] }}</td>
+                            <td>
+                                <span class="work_description">更多</span>
+                            </td>
+                            <td>{{ $list['maintain_date']}} {{ $list['enter_time'] }} ~ {{ $list['exit_time'] }}</td>
+                            <td>{{ $list['created_at'] }}</td>
+                            <td class="btn_delete_log" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <i class="bi bi-trash3"></i>
+                            </td>
+                        </tr>
+                        @endforeach
                     @endif
                 </tbody>
             </table>
@@ -75,8 +75,11 @@
                         </a>
                     </li>
 
-                    @for ($i = 1; $i <= $last_page; $i++) <li class="page-item"><a class="page-link" href="{{ route('log_list', ['page'=>$i]) }}">{{ $i }}</a></li>
-                        @endfor
+                    @for ($i = 1; $i <= $last_page; $i++) 
+                        <li class="page-item">
+                            <a class="page-link" href="{{ route('log_list', ['page'=>$i]) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
 
                         <li class="page-item">
                             <a class="page-link" href="{{ route('log_list', ['page'=>$last_page]) }}" aria-label="Next">

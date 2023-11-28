@@ -70,8 +70,8 @@ body {
 }
 
 .left_box_item {
-    height: 50px;
-    padding: 25px;
+    /* height: 50px; */
+    /* padding: 25px; */
     font-size: 1rem;
     border-bottom: 1px solid #ddd;
 }
@@ -79,10 +79,16 @@ body {
 .item_dropdown {
     display: flex;
     justify-content: space-between;
+    margin: 6px;
+}
+
+.item_dropdown a, .item_dropdown i {
+    padding: 10px 15px;
 }
 
 .sub_list {
     background-color: #fff;
+    padding: 10px 30px;
 }
 
 .bread_crumb {
@@ -152,7 +158,6 @@ body {
 }
 
 .btn_delete_log {
-    vertical-align: middle;
     cursor: pointer;
 }
 
@@ -163,10 +168,13 @@ body {
     padding: 15px 30px;
 }
 
+.table_content {
+    min-height: 420px;
+}
+
 .work_description {
     cursor: pointer;
     color: #3a22f1;
-
 }
 
 .work_description:hover {
@@ -188,6 +196,11 @@ form {
 
 table {
     text-align: center;
+    vertical-align: middle !important;
+}
+
+table thead th {
+    background-color: #eee !important;
 }
 
 .error_msg {
@@ -226,4 +239,24 @@ table {
     width: auto;
     margin: 0 10px;
     line-height: 1;
+}
+
+.member_tr {
+    position: relative;
+}
+
+.qrcode {
+    color: #3a22f1;
+}
+
+.qrcode-img {
+    display: none;
+}
+
+.qrcode-td:hover .qrcode-img {
+    display: block;
+    position: static;
+    width: 100px;
+    height: 100px;
+    border-radius: 5%;
 }
