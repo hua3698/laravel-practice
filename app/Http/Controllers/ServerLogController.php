@@ -55,7 +55,7 @@ class ServerLogController extends Controller
                     // ->get();
                     
         $server_log = $server_log->toArray();
-// dd($server_log);
+
         $response = [];
         $response['lists'] = $server_log['data'];
         $response['from'] = $server_log['from'];
@@ -70,12 +70,58 @@ class ServerLogController extends Controller
         return view('log_list', $response);
     }
 
-    public function showSingleLog(Request $request)
+    public function showSingleLog($log_id)
     {
+        $log = ServerRoomLog::where('server_log_id', $log_id)->get();
+
+        $log = $log->toArray()[0];
+
+        $response = [];
+        $response['type'] = 'single';
+        $response['title'] = $log_id;
+        $response['data'] = $log;
+
+        return view('log_form', $response);
     }
 
-    public function editSingleLog(Request $request)
+    public function editSingleLog($log_id)
     {
+        $log = ServerRoomLog::where('server_log_id', $log_id)->get();
+
+        $log = $log->toArray()[0];
+
+        $response = [];
+        $response['type'] = 'edit';
+        $response['id'] = $log_id;
+        $response['title'] = '編輯' . $log_id;
+        $response['data'] = $log;
+
+        return view('log_form', $response);
+    }
+
+    public function saveSingleLog($log_id, Request $request)
+    {
+        $validated = $request->validate([
+            'maintain_type' => 'required|integer',
+            'maintain_man' => 'required|string',
+            'maintain_date' => 'required|string',
+            'entrance_time' => 'required|string',
+            'exit_time' => 'required|string',
+            'work_desc' => 'required|string',
+        ]);
+
+        $data = [];
+        $data['maintain_man'] = $validated['maintain_man'];
+        $data['types'] = $validated['maintain_type'];
+        $data['maintain_date'] = $validated['maintain_date'];
+        $data['enter_time'] = $validated['entrance_time'];
+        $data['exit_time'] = $validated['exit_time'];
+        $data['maintain_description'] = $validated['work_desc'];
+
+        ServerRoomLog::where('server_log_id', $log_id)
+                        ->update($data);
+
+        return redirect()->route('log_list', ['create_success' => '修改成功']);
     }
 
     public function deleteSingleLog($log_id)

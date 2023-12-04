@@ -42,10 +42,11 @@ Route::get('log/form', function () {
 })->name('log_form')->middleware(Authenticate::class);
 
 Route::post('log/create', 'App\Http\Controllers\ServerLogController@createLog')->name('createLog');
-Route::get('log/list', 'App\Http\Controllers\ServerLogController@showLogList')->name('log_list')->middleware('2fa');
+Route::get('log/list', 'App\Http\Controllers\ServerLogController@showLogList')->name('log_list');
 Route::get('log/{log_id}', 'App\Http\Controllers\ServerLogController@showSingleLog');
-Route::get('log/{log_id}/edit', 'App\Http\Controllers\ServerLogController@editSingleLog');
-Route::put('log/{log_id}/delete', 'App\Http\Controllers\ServerLogController@deleteSingleLog')->name('log_delete');
+Route::get('log/{log_id}/edit', 'App\Http\Controllers\ServerLogController@editSingleLog')->name('log.edit');
+Route::post('log/{log_id}/save', 'App\Http\Controllers\ServerLogController@saveSingleLog')->name('log.edit.done');
+Route::put('log/{log_id}/delete', 'App\Http\Controllers\ServerLogController@deleteSingleLog')->name('log.delete');
 
 // 會員專區
 Route::get('member', 'App\Http\Controllers\MemberController@showMemberList');

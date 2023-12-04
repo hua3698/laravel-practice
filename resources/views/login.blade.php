@@ -90,6 +90,9 @@
                     </form>
                 </section>
             </div>
+
+            <div class="login-qrcode-img"></div>
+
         </div>
     </div>
 
@@ -113,7 +116,9 @@
                     post_data.password = password
 
                     $.post("{{ route('signUp') }}", post_data, function(re) {
-                        location.href = 'login#signin'
+                        if(re['status'] == 'ok') {
+                            $('.login-qrcode-img').html(re['qrcode_img'])
+                        }
                     })
                 })
 
@@ -133,7 +138,9 @@
 
                     $.post("{{ route('signIn') }}", post_data, function(re) {
                         console.log(re)
-                        // location.href = 'home'
+                        if(re === 'success') {
+                            location.href = 'home'
+                        }
                     })
                 })
             }

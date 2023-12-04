@@ -22,7 +22,7 @@ return [
     /*
      * Auth container binding.
      */
-    'auth' => 'auth2fa',
+    'auth' => '2fa',
 
     /*
      * Guard.

@@ -42,11 +42,11 @@
                 <!-- <div class="nav_link"><span><a href="{{ url('home')}}">首頁</a></span></div>
                 <div class="nav_link"><span><a href="{{ url('log/list?page=1') }}">機房日誌</a></span></div>
                 <div class="nav_link"><span>會員管理</span></div> -->
-                @auth
-                    <div class="nav_link" style="color: #f7f7f7;">{{ Auth::user()->name }}，<span><a href="{{ url('logout')}}">登出</a></span></div>
+                @if (session()->get('username'))
+                    <div class="nav_link" style="color: #f7f7f7;">{{ session()->get('username') }}，<span><a href="{{ url('logout')}}">登出</a></span></div>
                 @else
                     <div class="nav_link"><span><a href="{{ url('login')}}">登入</a></span></div>
-                @endauth
+                @endif
             </div>
         </div>
     </div>
@@ -96,7 +96,7 @@
 
             $('.main_list').on('click', function() {
                 let tag = $(this).data('tag')
-console.log(tag)
+
                 $('.sub_list').each(function() {
                     var sub_tag = $(this).data('tag');
                     if (sub_tag === tag) {

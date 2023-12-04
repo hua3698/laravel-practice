@@ -52,7 +52,7 @@
                             <td class="server_log_id">{{ $list['server_log_id'] }}</td>
                             <td class="maintain_man">{{ $list['maintain_man'] }}</td>
                             <td class="types">{{ $list['types'] }}</td>
-                            <td>
+                            <td class="more">
                                 <span class="work_description">更多</span>
                             </td>
                             <td>{{ $list['maintain_date']}} {{ $list['enter_time'] }} ~ {{ $list['exit_time'] }}</td>
@@ -158,20 +158,28 @@
         $('#btn_add_log')
             .on('click', function() {
                 location.href = "{{ route('log_form') }}";
-            })
+            });
 
         $('#button_delete')
             .on('click', function() {
                 let log_id = $(this).data('log_id')
 
                 $.ajax({
-                    url: `${log_id}/delete`,
+                    url: '{{ route("log.delete", ":id") }}'.replace(':id', log_id),
                     type: 'PUT',
                     data: "_token={{ csrf_token() }}",
                     success: function(data) {
                         location.href = "{{ route('log_list', ['create_success' => '刪除成功']) }}"
                     }
                 });
+            });
+
+        $('.more')
+            .on('click', function() {
+                let log_id = $(this).closest('tr').find('.server_log_id').html()
+                // console.log(log_id)
+
+                location.href = log_id;
             })
     })
 </script>

@@ -20,13 +20,6 @@
         @endif
     </div>
 
-    <form action="/google2fa/authenticate" method="POST">
-        @csrf
-        <input name="one_time_password" type="text">
-        <input name="one_time_password" class="form-control @error('password') is-invalid @enderror" required autofocus>
-
-        <button type="submit">Authenticate</button>
-    </form>
 </div>
 
 @endsection

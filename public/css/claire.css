@@ -60,3 +60,10 @@ label{
   top: -20px;
   right: 10px;
 }
+
+.login-qrcode-img {
+  position: absolute;
+  z-index: 30;
+  right: -300px;
+  top: 100px;
+}

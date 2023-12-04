@@ -35,15 +35,27 @@ class LoginController extends Controller
         ]);
 
         $user->save();
-        return response($user, 201);
+
+        $qrcode_img = $google2fa->getQRCodeInline(
+            $validated['name'],
+            $validated['email'],
+            $google2fa_key,
+            200
+        );
+
+        $re = [];
+        $re['status'] = 'ok';
+        $re['qrcode_img'] = $qrcode_img;
+
+        return response($re, 201);
         // return redirect()->back();
         // return redirect()->route('login');
     }
 
     public function signIn(Request $request)
     {
-        // try
-        // {
+        try
+        {
             $validated = $request->validate([
                 'name' => 'required|string',
                 'password' => 'required|string',
@@ -65,14 +77,14 @@ class LoginController extends Controller
                 throw new \Exception();
             }
 
-            session(['username' => $request->name]);
+            session()->put('username', $request->name);
             
             return response('success', 200);
-        // }
-        // catch (\Exception $e) 
-        // {
-        //     return response('login failed', 400);
-        // }
+        }
+        catch (\Exception $e) 
+        {
+            return response('login failed', 400);
+        }
     }
 
     public function logout()
