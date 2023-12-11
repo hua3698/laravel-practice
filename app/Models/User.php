@@ -12,7 +12,7 @@ use DateTimeInterface;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
 
     protected $table = 'users';
 
@@ -26,6 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
         'google2fa_secret',
+        'is_qrcode_show',
         'member_status'
     ];
 

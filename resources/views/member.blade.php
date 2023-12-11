@@ -13,7 +13,8 @@
         <span class="path"><a href="{{ url('home') }}">首頁</a></span>
         <span class="path">會員管理</span>
     </div>
-
+                <p class="change_link">New to site?                                <a href="{{ url('signup') }}" class="to_register"> Create Account </a>
+                            </p>
     <div class="main">
         <div class="title">
             <p>會員管理</p>

@@ -53,7 +53,7 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
-        '2fa' => \PragmaRX\Google2FALaravel\Middleware::class,
+        'login' => \App\Http\Middleware\LoginMiddleware::class,
 
         // default 
         'auth' => \App\Http\Middleware\Authenticate::class,

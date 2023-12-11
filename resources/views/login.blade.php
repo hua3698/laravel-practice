@@ -32,66 +32,43 @@
 
 <body class="login">
     <div>
-        <a class="hiddenanchor" id="signup"></a>
-        <a class="hiddenanchor" id="signin"></a>
-
         <div class="login_wrapper">
-            <div id="login" class="animate form login_form">
+            <div class="animate form login_form">
                 <section class="login_content">
                     <form>
                         <h1>Login Form</h1>
-                        <div>
-                            <input type="text" class="form-control" placeholder="Username" required="" />
+                        <div id="login_div" class="control_div">
+                            <div>
+                                <input type="text" class="form-control" placeholder="Username" required="" />
+                            </div>
+                            <div>
+                                <input type="password" class="form-control" placeholder="Password" required="" />
+                            </div>
+                            <div style="margin: 40px 0 0px;">
+                                <a href="" id="btn_login" class="btn btn-secondary">登入</a>
+                            </div>
                         </div>
-                        <div>
-                            <input type="password" class="form-control" placeholder="Password" required="" />
+                        <div id="otp_div" class="control_div" style="display: none;">
+                            <div style="text-align: left;">
+                                <label for="2fa">請輸入Google OTP驗證碼</label>
+                                <input type="text" name="google2fa_otp" class="form-control" placeholder="OTP (enter six number)" />
+                            </div>
+                            <div style="margin: 40px 0 0px;">
+                                <a href="" id="btn_otp" class="btn btn-secondary">驗證</a>
+                            </div>
                         </div>
-                        <div>
-                            <input type="text" name="google2fa_otp" class="form-control" placeholder="OTP (enter six number)" />
-                        </div>
-                        <!-- <div class="lost_pass_div">
-                <a class="" href="#">Lost your password?</a>
-              </div> -->
-                        <div style="margin: 40px 0 0px;">
-                            <a id="btn_login" class="btn btn-secondary submit" href="">Log in</a>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="separator">
-                            <p class="change_link">New to site?
-                                <a href="#signup" class="to_register"> Create Account </a>
-                            </p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </form>
-                </section>
-            </div>
-
-            <div id="register" class="animate form registration_form">
-                <section class="login_content">
-                    <form>
-                        <h1>Create Account</h1>
-                        <div>
-                            <input type="text" class="form-control" placeholder="Username" required="" />
-                        </div>
-                        <div>
-                            <input type="email" class="form-control" placeholder="Email" required="" />
-                        </div>
-                        <div>
-                            <input type="password" class="form-control" placeholder="Password" required="" />
-                        </div>
-                        <div><a id="btn_register" class="btn btn-secondary submit" href="">Submit</a></div>
-                        <div class="clearfix"></div>
-                        <div class="separator">
-                            <p class="change_link">Already a member ?
-                                <a href="#signin" class="to_register"> Log in </a>
-                            </p>
-                            <div class="clearfix"></div>
+                        <div id="qrcode_div" class="control_div" style="display: none;">
+                            <div>
+                                <h2>QR code</h2>
+                                <div id="qrcode-img"></div>
+                            </div>
+                            <div style="margin: 40px 0 0px;">
+                                <a href="" id="btn_qrcode" class="btn btn-secondary">回首頁</a>
+                            </div>
                         </div>
                     </form>
                 </section>
             </div>
-
-            <div class="login-qrcode-img"></div>
 
         </div>
     </div>
@@ -99,48 +76,61 @@
     <script type="text/javascript">
         $(function() {
 
+            let username = ''
+            let password = ''
+
             let init_event = function() {
-                $('#btn_register').on('click', function(e) {
-
-                    e.preventDefault()
-
-                    let name = $('#register input[type=text]').val()
-                    let email = $('#register input[type=email]').val()
-                    let password = $('#register input[type=password]').val()
-
-                    if (!name || !email || !password) return
-
-                    let post_data = {}
-                    post_data.name = name
-                    post_data.email = email
-                    post_data.password = password
-
-                    $.post("{{ route('signUp') }}", post_data, function(re) {
-                        if(re['status'] == 'ok') {
-                            $('.login-qrcode-img').html(re['qrcode_img'])
-                        }
-                    })
-                })
 
                 $('#btn_login').on('click', function(e) {
                     e.preventDefault()
 
-                    let name = $('#login input[type=text]').val()
-                    let password = $('#login input[type=password]').val()
-                    let otp = $('#login input[name=google2fa_otp]').val()
+                    username = $('#login_div input[type=text]').val()
+                    password = $('#login_div input[type=password]').val()
 
-                    if (!name || !password || !otp) return
+                    if (!username || !password) return
 
                     let post_data = {}
-                    post_data.name = name
+                    post_data.name = username
                     post_data.password = password
-                    post_data.google2fa_otp = otp
+                    // post_data.google2fa_otp = otp
 
                     $.post("{{ route('signIn') }}", post_data, function(re) {
-                        console.log(re)
-                        if(re === 'success') {
-                            location.href = 'home'
+
+                        let response = JSON.parse(re)
+
+                        $('.control_div').hide()
+                        if(response.show_div === 'qrcode') {
+                            $('#qrcode-img').html(response.qrcode_img)
+                            $('#qrcode_div').show()
+                        } else if(response.show_div === 'otp') {
+                            $('#otp_div').show()
                         }
+                    })
+                });
+
+                $('#btn_qrcode').on('click', function(e) {
+
+                    e.preventDefault()
+
+                    location.href = '{{ url("home") }}';
+                })
+
+                $('#btn_otp').on('click', function(e) {
+
+                    e.preventDefault()
+
+                    let otp = $('#otp_div input[name=google2fa_otp]').val()
+                    if (!otp) return
+
+                    let post_data = {}
+                    post_data.name = username
+                    post_data.otp = otp
+
+                    $.post("{{ route('validOTP') }}", post_data, function(re) {
+                        if(re == 'ok') {
+                            location.href =  '{{ url("home") }}';
+                        }
+
                     })
                 })
             }

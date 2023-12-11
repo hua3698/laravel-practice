@@ -47,6 +47,7 @@ body {
 }
 
 .content_container {
+    width: 100%;
     /* background: #fdfdfd;
     height: 800px;
     border-radius: 16px;

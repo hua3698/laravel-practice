@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ServerRoomLog;
+use Illuminate\Support\Facades\Log;
 use stdClass;
 
 class ServerLogController extends Controller
@@ -49,6 +50,7 @@ class ServerLogController extends Controller
     // 顯示機房日誌列表
     public function showLogList(Request $request)
     {
+        Log::debug('An informational message.');
         $server_log = ServerRoomLog::where('log_status', self::LOG_STATUS_SHOW)
                     ->orderByDesc('created_at')
                     ->paginate(self::DATA_PER_PAGE);
@@ -128,7 +130,7 @@ class ServerLogController extends Controller
     {
         // dd($log_id);
         ServerRoomLog::where('server_log_id', $log_id)
-                    ->update(['log_status' => 0]);
+                        ->update(['log_status' => 0]);
         // return redirect()->route('log_list', ['create_success' => '刪除成功']);
 
     }

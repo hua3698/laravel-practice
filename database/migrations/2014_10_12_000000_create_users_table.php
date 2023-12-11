@@ -18,7 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('google2fa_secret');
-            $table->tinyInteger('member_status');
+            $table->tinyInteger('is_qrcode_show')->comment('是否已顯示qrcode');
+            $table->tinyInteger('member_status')->comment('帳好是否啟用');
             $table->rememberToken();
             $table->timestamps();
         });
