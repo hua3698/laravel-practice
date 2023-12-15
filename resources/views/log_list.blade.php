@@ -26,9 +26,7 @@
             <p>機房日誌</p>
         </div>
         <div>
-            <div class="addlog">
-                <span id="btn_add_log">新增機房日誌</span>
-            </div>
+
         </div>
         <div class="table_content">
             <table class="table table-hover">
@@ -135,12 +133,6 @@
         let myModal = $('#staticBackdrop')
 
         $(".btn_delete_log")
-            // .on("mouseover", function() {
-            //     $(this).html('<i class="bi bi-trash3-fill"></i>');
-            // })
-            // .on("mouseout", function() {
-            //     $(this).html('<i class="bi bi-trash3"></i>');
-            // })
             .on('click', function() {
                 console.log($(this))
                 let parent_tr = $(this).closest('tr')
@@ -153,11 +145,6 @@
                     .find('.modal_type span').html(log_type).end()
                     .find('#button_delete').data('log_id', log_id).end()
                     .trigger('shown.bs.modal')
-            });
-
-        $('#btn_add_log')
-            .on('click', function() {
-                location.href = "{{ route('log_form') }}";
             });
 
         $('#button_delete')

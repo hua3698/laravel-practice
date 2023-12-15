@@ -29,14 +29,11 @@ Route::get('greet', function () {
     return 'hello world';
 });
 
-Route::get('login', function () {
-    return view('login');
-})->name('login');
-
 Route::get('signup', function () {
     return view('register');
 })->middleware('login');
 
+Route::get('login', 'App\Http\Controllers\LoginController@checkIsLogin')->name('login');
 Route::post('Register', 'App\Http\Controllers\LoginController@signUp')->name('signUp');
 Route::post('signIn', 'App\Http\Controllers\LoginController@signIn')->name('signIn');
 Route::post('validOTP', 'App\Http\Controllers\LoginController@validOTP')->name('validOTP');

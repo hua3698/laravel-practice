@@ -45,8 +45,6 @@ class LoginController extends Controller
         $re['status'] = 'ok';
 
         return response($re, 201);
-        // return redirect()->back();
-        // return redirect()->route('login');
     }
 
     // 驗證登入資訊
@@ -125,6 +123,11 @@ class LoginController extends Controller
         {
             return response('login failed', 400);
         }
+    }
+
+    public function checkIsLogin() {
+        return view('login');
+        
     }
 
     public function logout()

@@ -13,13 +13,12 @@
         <span class="path"><a href="{{ url('home') }}">首頁</a></span>
         <span class="path">會員管理</span>
     </div>
-                <p class="change_link">New to site?                                <a href="{{ url('signup') }}" class="to_register"> Create Account </a>
-                            </p>
+
     <div class="main">
         <div class="title">
             <p>會員管理</p>
         </div>
-        
+
         <div class="table_content">
             <table class="table table-hover">
                 <thead>
@@ -36,25 +35,25 @@
                 </thead>
                 <tbody>
                     @if (!empty($lists))
-                        @foreach ($lists as $index => $list)
-                        <tr class="member_tr">
-                            <th scope="row">{{ $from + $index }}</th>
-                            <td class="">{{ $list['name'] }}</td>
-                            <td class="">{{ $list['name'] }}</td>
-                            <td class="">{{ $list['email'] }}</td>
-                            <td>{{ $list['created_at'] }}</td>
-                            <td class="qrcode-td">
-                                <span class="qrcode">2FA QRCode</span>
-                                <div class="qrcode-img">{!! $list['qrcode'] !!}</div>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-secondary btn-sm">Secondary</button>
-                            </td>
-                            <td>
-                                <i class="bi bi-ban"></i>停用帳號
-                            </td>
-                        </tr>
-                        @endforeach
+                    @foreach ($lists as $index => $list)
+                    <tr class="member_tr">
+                        <th scope="row">{{ $from + $index }}</th>
+                        <td class="">{{ $list['name'] }}</td>
+                        <td class="">{{ $list['name'] }}</td>
+                        <td class="">{{ $list['email'] }}</td>
+                        <td>{{ $list['created_at'] }}</td>
+                        <td class="qrcode-td">
+                            <span class="qrcode">2FA QRCode</span>
+                            <div class="qrcode-img">{!! $list['qrcode'] !!}</div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-secondary btn-sm">Secondary</button>
+                        </td>
+                        <td>
+                            <i class="bi bi-ban"></i>停用帳號
+                        </td>
+                    </tr>
+                    @endforeach
                     @endif
                 </tbody>
             </table>
@@ -68,17 +67,16 @@
                         </a>
                     </li>
 
-                    @for ($i = 1; $i <= $last_page; $i++) 
-                        <li class="page-item">
-                            <a class="page-link" href="{{ route('log_list', ['page'=>$i]) }}">{{ $i }}</a>
+                    @for ($i = 1; $i <= $last_page; $i++) <li class="page-item">
+                        <a class="page-link" href="{{ route('log_list', ['page'=>$i]) }}">{{ $i }}</a>
                         </li>
-                    @endfor
+                        @endfor
 
-                    <li class="page-item">
-                        <a class="page-link" href="{{ route('log_list', ['page'=>$last_page]) }}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
+                        <li class="page-item">
+                            <a class="page-link" href="{{ route('log_list', ['page'=>$last_page]) }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
                 </ul>
             </nav>
 
@@ -94,7 +92,7 @@
                 <span>筆, 共 {{ $total }} 筆</span>
             </div>
         </div>
-        
+
     </div>
 
 </div>
@@ -107,7 +105,7 @@
 <script>
     $(function() {
         // delete modal
-        
+
     })
 </script>
 

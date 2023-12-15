@@ -55,27 +55,27 @@
         <div class="content_container row">
             <div class="content_left col-2">
                 <div class="left_box">
-                    <div class="left_box_item main_list" data-tag="log">
+                    <div class="main_list left_box_item" data-tag="log">
                         <div class="item_dropdown">
-                            <a href="{{ url('log/list?page=1') }}" class="col-9">機房日誌</a>
+                            <a href="" class="col-9">機房日誌</a>
                             <i class="bi bi-chevron-down col-3"></i>
                         </div>
                     </div>
-                    <div class="left_box_item sub_list" data-tag="log">
-                        <div class="">
-                            <a href="{{ url('log/form') }}">新增機房日誌</a>
+                    <div class="sub_list left_box_item" data-tag="log">
+                        <div class=""><a href="{{ url('log/list?page=1') }}">日誌總覽</a></div>
+                    </div>
+                    <div class="sub_list left_box_item" data-tag="log">
+                        <div class=""><a href="{{ url('log/form') }}">新增機房日誌</a></div>
+                    </div>
+                    <div class="main_list left_box_item" data-tag="member">
+                        <div class="item_dropdown"><a href="" class="col-9">會員管理</a><i class="bi bi-chevron-down col-3"></i>
                         </div>
                     </div>
-                    <div class="left_box_item main_list" data-tag="member">
-                        <div class="item_dropdown">
-                            <a href="{{ url('member') }}" class="col-9">會員管理</a>
-                            <i class="bi bi-chevron-down col-3"></i>
-                        </div>
+                    <div class="sub_list left_box_item" data-tag="member">
+                        <div class=""><a href="{{ url('member') }}">會員總覽</a></div>
                     </div>
-                    <div class="left_box_item sub_list" data-tag="member">
-                        <div class="">
-                            <a href="{{ url('log/form') }}">新增會員</a>
-                        </div>
+                    <div class="sub_list left_box_item" data-tag="member">
+                        <div class=""><a href="{{ url('signup') }}">新增會員</a></div>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
         </div>
     </div>
 
-    <div class="footer"></div>
+    <!-- <div class="footer"></div> -->
 
     @yield('script_js')
 
@@ -94,15 +94,21 @@
         $(function() {
             $('.sub_list').hide();
 
-            $('.main_list').on('click', function() {
+            $('.main_list').on('click', function(e) {
+                e.preventDefault()
+
                 let tag = $(this).data('tag')
 
                 $('.sub_list').each(function() {
                     var sub_tag = $(this).data('tag');
                     if (sub_tag === tag) {
-                        $(this).slideDown()
+                        $(this).slideToggle()
                     }
                 });
+            })
+
+            $('sub_list').on('click', function() {
+
             })
         })
     </script>

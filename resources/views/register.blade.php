@@ -1,102 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- <div class="login_wrapper">
+    <div id="register" class="animate form registration_form" style="opacity: unset;">
+        <section class="login_content">
+            <form>
+                <h1>Create Account</h1>
+                <div>
+                    <input type="text" class="form-control" placeholder="Username" required="" />
+                </div>
+                <div>
+                    <input type="email" class="form-control" placeholder="Email" required="" />
+                </div>
+                <div>
+                    <input type="password" class="form-control" placeholder="Password" required="" />
+                </div>
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>@yield('title','管理後台')</title>
-
-
-    <!-- Bootstrap -->
-    <link href="{{ asset('plugins/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="{{ asset('plugins/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-    <!-- NProgress -->
-    <!-- <link href="{{ asset('plugins/vendors/nprogress/nprogress.css') }}" rel="stylesheet"> -->
-    <!-- Animate.css -->
-    <link href="{{ asset('plugins/vendors/animate.css/animate.min.css') }}" rel="stylesheet">
-
-    <!-- Custom Theme Style -->
-    <link href="{{ asset('plugins/build/css/custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/claire.css') }}" rel="stylesheet">
-
-    <script src="{{ asset('plugins/jquery-3.7.1.min.js') }}"></script>
+            </form>
+        </section>
+    </div>
+</div> -->
 
 
-</head>
 
-<body class="login">
-    <div>
+@extends('common')
 
-        <div class="login_wrapper">
-            <div id="register" class="animate form registration_form" style="opacity: unset;">
-                <section class="login_content">
-                    <form>
-                        <h1>Create Account</h1>
-                        <div>
-                            <input type="text" class="form-control" placeholder="Username" required="" />
-                        </div>
-                        <div>
-                            <input type="email" class="form-control" placeholder="Email" required="" />
-                        </div>
-                        <div>
-                            <input type="password" class="form-control" placeholder="Password" required="" />
-                        </div>
-                        <div><a id="btn_register" class="btn btn-secondary submit" href="">Submit</a></div>
-                        <div class="clearfix"></div>
-                    </form>
-                </section>
-            </div>
-        </div>
+@section('head_script')
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sceditor@3/minified/themes/default.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/sceditor@3/minified/sceditor.min.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+@endsection
+
+@section('page')
+
+<div class="right_box">
+    <div class="bread_crumb">
+        <i class="bi bi-house-fill"></i>
+        <span class="path"><a href="{{ url('home') }}">首頁</a></span>
+        <span class="path"><a href="{{ url('log/list?page=1') }}">會員</a></span>
+        <span class="path">
+            @if (isset($title))
+            {{ $title }}
+            @else
+            新增會員
+            @endif
+        </span>
     </div>
 
-    <script type="text/javascript">
-        $(function() {
+    @if ($errors->any())
+    <div class="error_msg rounded">
+        {{ $errors->first() }}
+        <span class="error_msg_close"><i class="bi bi-x-lg"></i></span>
+    </div>
 
-            let init_event = function() {
-                $('#btn_register').on('click', function(e) {
+    @endif
 
-                    e.preventDefault()
+    <div class="main">
+        <div class="title">
+            <p>
+                @if (isset($title))
+                {{ $title }}
+                @else
+                新增會員
+                @endif
+            </p>
+        </div>
+        <div class="table_container">
+            <form class="row g-3" action="{{ url('log/create') }}" method="POST">
+                @csrf
 
-                    let name = $('#register input[type=text]').val()
-                    let email = $('#register input[type=email]').val()
-                    let password = $('#register input[type=password]').val()
+                <div class="mb-3 col-4">
+                    <label for="account_name" class="form-label">會員帳號：</label>
+                    <input type="text" class="form-control" name="account_name" placeholder="Username" required="">
+                </div>
+                <div class="mb-3 col-8"></div>
 
-                    if (!name || !email || !password) return
+                <div class="mb-3 col-4">
+                    <label for="account_email" class="form-label">會員信箱：</label>
+                    <input type="email" class="form-control" name="account_email" placeholder="Email" required="">
+                </div>
+                <div class="mb-3 col-8"></div>
 
-                    let post_data = {}
-                    post_data.name = name
-                    post_data.email = email
-                    post_data.password = password
+                <div class="mb-3 col-4">
+                    <label for="password" class="form-label">會員密碼：</label>
+                    <input type="password" class="form-control" name="password" placeholder="Password" required="">
+                </div>                
+                <div class="col-12 submit_div">
+                    <button id="btn_register" type="submit" class="btn btn-primary">確認送出</button>
+                </div>
 
-                    $.post("{{ route('signUp') }}", post_data, function(re) {
-                        location.href = 'home'
-                        // if(re['status'] == 'ok') {
-                        //     $('.login-qrcode-img').html(re['qrcode_img'])
-                        // }
-                    })
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+@endsection
+
+
+@section('script_js')
+
+<script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
+<script>
+    $(function() {
+
+        let init_event = function() {
+            $('#btn_register').on('click', function(e) {
+
+                e.preventDefault()
+
+                let name = $('#register input[type=text]').val()
+                let email = $('#register input[type=email]').val()
+                let password = $('#register input[type=password]').val()
+
+                if (!name || !email || !password) return
+
+                let post_data = {}
+                post_data.name = name
+                post_data.email = email
+                post_data.password = password
+
+                $.post("{{ route('signUp') }}", post_data, function(re) {
+                    location.href = 'home'
+                    // if(re['status'] == 'ok') {
+                    //     $('.login-qrcode-img').html(re['qrcode_img'])
+                    // }
                 })
+            })
 
-            }
+        }
 
-            let init_login_Page = function() {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-            }
+        let init_login_Page = function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        }
 
-            init_login_Page()
-            init_event()
-        })
-    </script>
+        init_login_Page()
+        init_event()
+    })
+</script>
 
-</body>
-
-</html>
+@endsection
