@@ -32,6 +32,9 @@
 <!-- https://doit.gov.taipei/Content_List.aspx?n=24B0D4D1DE246465 -->
 
 <body class="">
+@php
+    $role = session()->get('role');
+@endphp
     <div class="header">
         <div class="header_container">
             <div class="logo">
@@ -67,16 +70,21 @@
                     <div class="sub_list left_box_item" data-tag="log">
                         <div class=""><a href="{{ url('log/form') }}">新增機房日誌</a></div>
                     </div>
+                    @if ($role == 'admin')
                     <div class="main_list left_box_item" data-tag="member">
                         <div class="item_dropdown"><a href="" class="col-9">會員管理</a><i class="bi bi-chevron-down col-3"></i>
                         </div>
                     </div>
                     <div class="sub_list left_box_item" data-tag="member">
-                        <div class=""><a href="{{ url('member') }}">會員總覽</a></div>
+                        <div class=""><a href="{{ url('member/list') }}">會員總覽</a></div>
                     </div>
                     <div class="sub_list left_box_item" data-tag="member">
-                        <div class=""><a href="{{ url('signup') }}">新增會員</a></div>
+                        <div class=""><a href="{{ url('member/create') }}">新增會員</a></div>
                     </div>
+                    <div class="sub_list left_box_item" data-tag="member">
+                        <div class=""><a href="{{ url('member/right') }}">會員權限管理</a></div>
+                    </div>
+                    @endif
                 </div>
             </div>
             <div class="content_right col-10">

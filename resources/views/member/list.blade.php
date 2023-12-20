@@ -2,7 +2,6 @@
 
 @section('head_script')
 
-
 @endsection
 
 @section('page')
@@ -24,21 +23,20 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">會員名稱</th>
                         <th scope="col">登入帳號</th>
                         <th scope="col">會員信箱</th>
                         <th scope="col">帳號新增時間</th>
                         <th scope="col">google 2FA</th>
+                        <th scope="col">會員身分</th>
                         <th scope="col">帳號狀態</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (!empty($lists))
-                    @foreach ($lists as $index => $list)
+                    @if (!empty($list))
+                    @foreach ($list as $index => $list)
                     <tr class="member_tr">
                         <th scope="row">{{ $from + $index }}</th>
-                        <td class="">{{ $list['name'] }}</td>
                         <td class="">{{ $list['name'] }}</td>
                         <td class="">{{ $list['email'] }}</td>
                         <td>{{ $list['created_at'] }}</td>
@@ -46,6 +44,7 @@
                             <span class="qrcode">2FA QRCode</span>
                             <div class="qrcode-img">{!! $list['qrcode'] !!}</div>
                         </td>
+                        <td>{{ $list['role'] }}</td>
                         <td>
                             <button type="button" class="btn btn-secondary btn-sm">Secondary</button>
                         </td>

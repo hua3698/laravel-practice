@@ -1,8 +1,10 @@
 @extends('common')
 
 @section('head_script')
-
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 
 @section('page')
@@ -25,8 +27,37 @@
         <div class="title">
             <p>機房日誌</p>
         </div>
-        <div>
+        <div class="row row-cols-lg-auto g-3 align-items-center filter_block">
+            <div class="col-12">
+                <label class="visually-hidden" for="inlineFormInputGroupUsername">Username</label>
+                <div class="input-group">
+                    <div class="input-group-text">@</div>
+                    <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
+                </div>
+            </div>
 
+            <div class="col-12">
+                <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
+                <select class="form-select" id="inlineFormSelectPref">
+                    <option selected>Choose...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                    <label class="form-check-label" for="inlineFormCheck">
+                        Remember me
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </div>
         <div class="table_content">
             <table class="table table-hover">
@@ -44,22 +75,22 @@
                 </thead>
                 <tbody>
                     @if (!empty($lists))
-                        @foreach ($lists as $index => $list)
-                        <tr>
-                            <th scope="row">{{ $from + $index }}</th>
-                            <td class="server_log_id">{{ $list['server_log_id'] }}</td>
-                            <td class="maintain_man">{{ $list['maintain_man'] }}</td>
-                            <td class="types">{{ $list['types'] }}</td>
-                            <td class="more">
-                                <span class="work_description">更多</span>
-                            </td>
-                            <td>{{ $list['maintain_date']}} {{ $list['enter_time'] }} ~ {{ $list['exit_time'] }}</td>
-                            <td>{{ $list['created_at'] }}</td>
-                            <td class="btn_delete_log" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                <i class="bi bi-trash3"></i>
-                            </td>
-                        </tr>
-                        @endforeach
+                    @foreach ($lists as $index => $list)
+                    <tr>
+                        <th scope="row">{{ $from + $index }}</th>
+                        <td class="server_log_id">{{ $list['server_log_id'] }}</td>
+                        <td class="maintain_man">{{ $list['maintain_man'] }}</td>
+                        <td class="types">{{ $list['types'] }}</td>
+                        <td class="more">
+                            <span class="work_description">更多</span>
+                        </td>
+                        <td>{{ $list['maintain_date']}} {{ $list['enter_time'] }} ~ {{ $list['exit_time'] }}</td>
+                        <td>{{ $list['created_at'] }}</td>
+                        <td class="btn_delete_log" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <i class="bi bi-trash3"></i>
+                        </td>
+                    </tr>
+                    @endforeach
                     @endif
                 </tbody>
             </table>
@@ -73,11 +104,10 @@
                         </a>
                     </li>
 
-                    @for ($i = 1; $i <= $last_page; $i++) 
-                        <li class="page-item">
-                            <a class="page-link" href="{{ route('log_list', ['page'=>$i]) }}">{{ $i }}</a>
+                    @for ($i = 1; $i <= $last_page; $i++) <li class="page-item">
+                        <a class="page-link" href="{{ route('log_list', ['page'=>$i]) }}">{{ $i }}</a>
                         </li>
-                    @endfor
+                        @endfor
 
                         <li class="page-item">
                             <a class="page-link" href="{{ route('log_list', ['page'=>$last_page]) }}" aria-label="Next">

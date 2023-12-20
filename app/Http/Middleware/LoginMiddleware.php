@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class LoginMiddleware
+class LoginMiddleware //extends Authenticate
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,9 @@ class LoginMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // echo session()->get('username')
         $user = $request->session()->get('username');
         if(!$user) {
-            return redirect('home');
+            return redirect('login');
         }
 
         return $next($request);

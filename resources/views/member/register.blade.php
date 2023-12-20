@@ -68,7 +68,7 @@
             </p>
         </div>
         <div class="table_container">
-            <form class="row g-3" action="{{ url('log/create') }}" method="POST">
+            <form id="register" class="row g-3">
                 @csrf
 
                 <div class="mb-3 col-4">
@@ -122,14 +122,20 @@
                 post_data.email = email
                 post_data.password = password
 
-                $.post("{{ route('signUp') }}", post_data, function(re) {
-                    location.href = 'home'
-                    // if(re['status'] == 'ok') {
-                    //     $('.login-qrcode-img').html(re['qrcode_img'])
-                    // }
+                $.post("{{ route('createMember') }}", post_data, function(re) {
+                    if(re['status'] == 'ok') {
+                        alert('新增成功')
+                        clearInput()
+                        // $('.login-qrcode-img').html(re['qrcode_img'])
+                    }
                 })
             })
+        }
 
+        let clearInput = function () {
+            $('#register input[type=text]').val('')
+            $('#register input[type=email]').val('')
+            $('#register input[type=password]').val('')
         }
 
         let init_login_Page = function() {

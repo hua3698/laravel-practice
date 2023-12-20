@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('google2fa_secret');
             $table->tinyInteger('is_qrcode_show')->comment('是否已顯示qrcode');
-            $table->tinyInteger('member_status')->comment('帳好是否啟用');
+            $table->tinyInteger('member_status')->comment('帳號是否啟用');
+            $table->string('role')->comment('使用者身分 (admin/normal)');
             $table->rememberToken();
             $table->timestamps();
         });

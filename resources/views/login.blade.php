@@ -133,6 +133,22 @@
 
                     })
                 })
+
+                $('input[type=password]').keypress(function (e) {
+                    let key = e.which
+                    if(key == 13) {
+                        $('#btn_login').click();
+                        return false;  
+                    }
+                });
+
+                $('input[name=google2fa_otp]').keypress(function (e) {
+                    let key = e.which
+                    if(key == 13) {
+                        $('#btn_otp').click();
+                        return false;  
+                    }
+                });   
             }
 
             let init_login_Page = function() {

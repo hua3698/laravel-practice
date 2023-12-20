@@ -10,41 +10,12 @@ use stdClass;
 
 class LoginController extends Controller
 {
-    const _ENABLE_MEMBER = 1;
-    const _HASNOT_SHOW_ = 0;
     const _WEBSITE_NAME_ = "管理後台";
 
-    public function createAccount(request $request) {
-        echo 'aaaaaaaaa';
-    }
-
     // create a new account
-    public function signUp(Request $request)
+    public function signUp()
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|max:255'
-        ]);
 
-        $google2fa  = new Google2FA();
-        $google2fa_key = $google2fa->generateSecretKey();
-
-        $user = new User([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => password_hash($validated['password'], PASSWORD_DEFAULT ),
-            'google2fa_secret' => $google2fa_key,
-            'is_qrcode_show' => self::_HASNOT_SHOW_,
-            'member_status' => self::_ENABLE_MEMBER
-        ]);
-
-        $user->save();
-
-        $re = [];
-        $re['status'] = 'ok';
-
-        return response($re, 201);
     }
 
     // 驗證登入資訊
@@ -88,7 +59,9 @@ class LoginController extends Controller
             }
 
             session()->put('username', $request->name);
-            
+            session()->put('email', $User['email    ']);
+            session()->put('role', $User['role']);
+
             return response(json_encode($response), 200);
         }
         catch (\Exception $e) 
