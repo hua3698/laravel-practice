@@ -38,11 +38,12 @@ Route::middleware(['web', 'login'])->group(function ()
 {
     // 機房日誌
     Route::get('log/form', function () {
-        return view('log_form');
+        return view('log.form');
     })->name('log_form');
 
     Route::post('log/create', 'App\Http\Controllers\ServerLogController@createLog')->name('createLog');
     Route::get('log/list', 'App\Http\Controllers\ServerLogController@showLogList')->name('log_list');
+    Route::get('log/search', 'App\Http\Controllers\ServerLogController@searchLogList')->name('')->name('log/search');
     Route::get('log/{log_id}', 'App\Http\Controllers\ServerLogController@showSingleLog');
     Route::get('log/{log_id}/edit', 'App\Http\Controllers\ServerLogController@editSingleLog')->name('log.edit');
     Route::post('log/{log_id}/save', 'App\Http\Controllers\ServerLogController@saveSingleLog')->name('log.edit.done');
@@ -56,6 +57,5 @@ Route::middleware(['web', 'login'])->group(function ()
     Route::post('member/create', 'App\Http\Controllers\MemberController@createMember')->name('createMember');
     Route::get('member/right', 'App\Http\Controllers\MemberController@getMemberRightList');
     Route::put('member/right', 'App\Http\Controllers\MemberController@modifyMemberRight');
-    
 
 });

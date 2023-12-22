@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ServerRoomLog;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use stdClass;
 
 class ServerLogController extends Controller
@@ -69,7 +70,7 @@ class ServerLogController extends Controller
             $response['create_success'] = $request['create_success'];
         }
 
-        return view('log_list', $response);
+        return view('log.list', $response);
     }
 
     public function showSingleLog($log_id)
@@ -83,7 +84,32 @@ class ServerLogController extends Controller
         $response['title'] = $log_id;
         $response['data'] = $log;
 
-        return view('log_form', $response);
+        return view('log.form', $response);
+    }
+
+    public function searchLogList(Request $request)
+    {
+        $validated = $request->validate([
+            'keyword' => 'string',
+            'maintain_date' => 'string',
+        ]);
+
+        $logs = DB::table('server_room_log');
+
+        if(isset($validated['keyword'])) {
+            $logs->where('server_log_id', $validated['keyword'])
+                    ->orWhere('maintain_man', 'like', $validated['keyword']);
+        }
+
+        if(isset($validated['maintain_date'])) {
+            $logs->where('maintain_date', $validated['maintain_date']);
+        }
+
+        $logs = $logs->get();
+
+        $logs->dd();
+
+
     }
 
     public function editSingleLog($log_id)

@@ -93,7 +93,7 @@
                 type: 'PUT',
                 url: "{{ url('member/right') }}",
                 contentType: 'application/json',
-                data: JSON.stringify(data), // access in body
+                data: JSON.stringify(data),
             }).done(function (re) {
                 // alert('修改成功')
                 // location.reload()

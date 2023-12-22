@@ -38,9 +38,12 @@ class LoginController extends Controller
             $User = $User->toArray();
 
             $response = new stdClass();
-            if($User['is_qrcode_show'] === 1) {
+            if($User['is_qrcode_show'] === 1) 
+            {
                 $response->show_div = 'otp';
-            } else {
+            } 
+            else 
+            {
                 
                 $google2fa  = new Google2FA();
                 $google2fa_key = $User['google2fa_secret'];
@@ -57,10 +60,6 @@ class LoginController extends Controller
                 $response->show_div = 'qrcode';
                 $response->qrcode_img = $qrcode_img;
             }
-
-            session()->put('username', $request->name);
-            session()->put('email', $User['email    ']);
-            session()->put('role', $User['role']);
 
             return response(json_encode($response), 200);
         }
@@ -89,6 +88,10 @@ class LoginController extends Controller
             if($valid === false) {
                 throw new \Exception();
             }
+
+            session()->put('username', $request->name);
+            session()->put('email', $User['email']);
+            session()->put('role', $User['role']);
 
             return response('ok', 200);
         }

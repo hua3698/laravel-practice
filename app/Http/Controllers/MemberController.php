@@ -60,7 +60,8 @@ class MemberController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|max:255'
+            'password' => 'required|string|max:255',
+            'role' => 'required|string'
         ]);
 
         $google2fa  = new Google2FA();
@@ -73,7 +74,7 @@ class MemberController extends Controller
             'google2fa_secret' => $google2fa_key,
             'is_qrcode_show' => self::_HASNOT_SHOW_,
             'member_status' => self::_ENABLE_MEMBER,
-            'role' => self::_NORMAL_ROLE_
+            'role' => $validated['role']
         ]);
 
         $user->save();

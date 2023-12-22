@@ -27,38 +27,26 @@
         <div class="title">
             <p>機房日誌</p>
         </div>
-        <div class="row row-cols-lg-auto g-3 align-items-center filter_block">
-            <div class="col-12">
-                <label class="visually-hidden" for="inlineFormInputGroupUsername">Username</label>
-                <div class="input-group">
-                    <div class="input-group-text">@</div>
-                    <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
+
+        <div class="search_bar">
+            <div class="row mb-3">
+                <label for="keyword" class="col-sm-2 col-form-label">關鍵字搜尋：</label>
+                <div class="col-4">
+                    <input type="text" class="form-control" id="keyword" placeholder="維護編號/維護人員">
                 </div>
             </div>
-
-            <div class="col-12">
-                <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
-                <select class="form-select" id="inlineFormSelectPref">
-                    <option selected>Choose...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-
-            <div class="col-12">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="inlineFormCheck">
-                    <label class="form-check-label" for="inlineFormCheck">
-                        Remember me
-                    </label>
+            <div class="row mb-3">
+                <label for="date_picker" class="col-sm-2 col-form-label">維護日期：</label>
+                <div class="col-4">
+                    <input id="date_picker" class="form-control" type="text" name="date_picker" value="" />
                 </div>
             </div>
-
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="text-center">
+                <button id="btnSearch" class="btn btn-sm btn-primary">查詢</button>
+                <button id="btnClear" class="btn btn-sm btn-secondary">清空</button>
             </div>
         </div>
+
         <div class="table_content">
             <table class="table table-hover">
                 <thead>
@@ -159,12 +147,55 @@
 
 <script>
     $(function() {
-        // delete modal
+        let active_calendar = 0
+        // delete modal0
         let myModal = $('#staticBackdrop')
+
+        let set_datepicker = function() {
+            let today = new Date();
+            let str_today = dateFormat(today)
+
+            $('#date_picker').daterangepicker({
+                "singleDatePicker": true,
+                "showCustomRangeLabel": false,
+                "startDate": str_today,
+                maxDate: str_today,
+                locale: {
+                    format: 'YYYY/MM/DD',
+                    applyLabel: "確認",
+                    cancelLabel: "取消",
+                    customRangeLabel: "自訂區間",
+                    daysOfWeek: [
+                        "日",
+                        "一",
+                        "二",
+                        "三",
+                        "四",
+                        "五",
+                        "六"
+                    ],
+                    monthNames: [
+                        "1 月",
+                        "2 月",
+                        "3 月",
+                        "4 月",
+                        "5 月",
+                        "6 月",
+                        "7 月",
+                        "8 月",
+                        "9 月",
+                        "10 月",
+                        "11 月",
+                        "12 月"
+                    ],
+                }
+            }, function(start, end, label) {
+                console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+            });
+        }
 
         $(".btn_delete_log")
             .on('click', function() {
-                console.log($(this))
                 let parent_tr = $(this).closest('tr')
                 let log_id = parent_tr.find('.server_log_id').html()
                 let log_man = parent_tr.find('.maintain_man').html()
@@ -197,6 +228,61 @@
                 // console.log(log_id)
 
                 location.href = log_id;
+            })
+
+        $('#btnSearch')
+            .on('click', function() {
+                let keyword = $('#keyword').val().trim()
+                let maintain_date = $('#date_picker').val().trim()
+
+                let req_data = {}
+                if (keyword) {
+                    req_data.keyword = keyword
+                }
+
+                if (maintain_date) {
+                    req_data.maintain_date = maintain_date
+                }
+
+                console.log(req_data)
+
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ route('log/search') }}",
+                    contentType: 'application/json',
+                    data: req_data,
+                })
+                .done(function(re) {
+                    // alert('修改成功')
+                    // location.reload()
+                })
+                .fail(function(msg) {
+                    // console.log(msg)
+                    // alert('系統錯誤')
+                    // location.href = "{{ url('home') }}"
+                })
+                .always(function(msg) {
+                    console.log('ALWAYS');
+                });
+            })
+
+        $('#btnClear')
+            .on('click', function() {
+                $('#keyword').val('')
+                $('#date_picker').val('')
+            })
+
+        $('#date_picker')
+            .on('cancel.daterangepicker', function(e, picker) {
+                $('#date_picker').val('');
+            })
+            .on('mousedown', () => {
+
+                if (!active_calendar) {
+                    set_datepicker()
+                }
+
+                active_calendar = 1
             })
     })
 </script>

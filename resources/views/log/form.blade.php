@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sceditor@3/minified/themes/default.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/sceditor@3/minified/sceditor.min.js"></script>
 
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 
 @section('page')
@@ -170,7 +170,7 @@
 
                         <div class="mb-3 col-4">
                             <label for="date_picker" class="form-label">維護日期：</label>
-                            <input id="date_picker" class="form-control" type="text" name="date_picker" value="" />
+                            <input id="date_picker" class="form-control" type="text" name="maintain_date" value="" />
                         </div>
                         <div class="mb-3 col-8"></div>
                         <div class="mb-3 col-4">
@@ -290,9 +290,6 @@
         set_event()
     })
 
-    function dateFormat(date) {
-        return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
-    }
 </script>
 
 @endsection

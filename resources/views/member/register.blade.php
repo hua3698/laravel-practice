@@ -68,31 +68,43 @@
             </p>
         </div>
         <div class="table_container">
-            <form id="register" class="row g-3">
+            <form id="register" class="g-3">
                 @csrf
 
-                <div class="mb-3 col-4">
-                    <label for="account_name" class="form-label">會員帳號：</label>
-                    <input type="text" class="form-control" name="account_name" placeholder="Username" required="">
+                <div class="form-group row">
+                    <div class="mb-3 col-4">
+                        <label for="account_name" class="form-label">會員帳號：</label>
+                        <input type="text" class="form-control" name="account_name" placeholder="Username" required="">
+                    </div>
+                    <div class="mb-3 col-4">
+                        <label for="account_email" class="form-label">會員信箱：</label>
+                        <input type="email" class="form-control" name="account_email" placeholder="Email" required="">
+                    </div>
                 </div>
-                <div class="mb-3 col-8"></div>
 
-                <div class="mb-3 col-4">
-                    <label for="account_email" class="form-label">會員信箱：</label>
-                    <input type="email" class="form-control" name="account_email" placeholder="Email" required="">
+                <div class="form-group row">
+                    <div class="mb-3 col-4">
+                        <label for="password" class="form-label">會員密碼：</label>
+                        <input type="password" class="form-control" name="password" placeholder="Password" required="">
+                    </div>
                 </div>
-                <div class="mb-3 col-8"></div>
 
-                <div class="mb-3 col-4">
-                    <label for="password" class="form-label">會員密碼：</label>
-                    <input type="password" class="form-control" name="password" placeholder="Password" required="">
-                </div>                
+                <div class="form-group row">
+                    <div class="mb-3 col-4">
+                        <label for="role" class="form-label">會員身分</label>
+                        <select id="role" class="form-select">
+                            <option value="normal" selected>一般使用者</option>
+                            <option value="admin">管理員</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="col-12 submit_div">
                     <button id="btn_register" type="submit" class="btn btn-primary">確認送出</button>
                 </div>
 
             </form>
-            
+
         </div>
     </div>
 </div>
@@ -114,6 +126,7 @@
                 let name = $('#register input[type=text]').val()
                 let email = $('#register input[type=email]').val()
                 let password = $('#register input[type=password]').val()
+                let role = $('#register #role').val()
 
                 if (!name || !email || !password) return
 
@@ -121,9 +134,10 @@
                 post_data.name = name
                 post_data.email = email
                 post_data.password = password
+                post_data.role = role
 
                 $.post("{{ route('createMember') }}", post_data, function(re) {
-                    if(re['status'] == 'ok') {
+                    if (re['status'] == 'ok') {
                         alert('新增成功')
                         clearInput()
                         // $('.login-qrcode-img').html(re['qrcode_img'])
@@ -132,7 +146,7 @@
             })
         }
 
-        let clearInput = function () {
+        let clearInput = function() {
             $('#register input[type=text]').val('')
             $('#register input[type=email]').val('')
             $('#register input[type=password]').val('')
