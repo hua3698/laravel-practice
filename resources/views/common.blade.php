@@ -119,6 +119,17 @@
             $('sub_list').on('click', function() {
 
             })
+
+            
+            let init_login_Page = function() {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+            }
+
+            init_login_Page()
         })
     </script>
 

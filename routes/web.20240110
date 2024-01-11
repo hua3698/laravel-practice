@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Authenticate;
+
+use PragmaRX\Google2FAQRCode\Google2FA;
+use App\Http\Middleware\register;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
+//    return view('welcome');
 });
 
 Route::get('home', function () {
@@ -53,6 +58,5 @@ Route::middleware(['web', 'login'])->group(function ()
     Route::post('member/create', 'App\Http\Controllers\MemberController@createMember')->name('createMember');
     Route::get('member/right', 'App\Http\Controllers\MemberController@getMemberRightList');
     Route::put('member/right', 'App\Http\Controllers\MemberController@modifyMemberRight');
-    Route::put('member/list/key', 'App\Http\Controllers\MemberController@renewMemberKey')->name('memberRenewKey');
 
 });

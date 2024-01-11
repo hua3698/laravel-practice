@@ -39,7 +39,7 @@
                         <h1>Login Form</h1>
                         <div id="login_div" class="control_div">
                             <div>
-                                <input type="text" class="form-control" placeholder="Username" required="" />
+                                <input type="text" class="form-control" placeholder="Username" required="" autofocus/>
                             </div>
                             <div>
                                 <input type="password" class="form-control" placeholder="Password" required="" />
@@ -51,7 +51,7 @@
                         <div id="otp_div" class="control_div" style="display: none;">
                             <div style="text-align: left;">
                                 <label for="2fa">請輸入Google OTP驗證碼</label>
-                                <input type="text" name="google2fa_otp" class="form-control" placeholder="OTP (enter six number)" />
+                                <input type="text" name="google2fa_otp" class="form-control" placeholder="OTP (enter six number)"/>
                             </div>
                             <div style="margin: 40px 0 0px;">
                                 <a href="" id="btn_otp" class="btn btn-secondary">驗證</a>
@@ -60,10 +60,11 @@
                         <div id="qrcode_div" class="control_div" style="display: none;">
                             <div>
                                 <h2>QR code</h2>
+                                <p>打開Authenticator APP，掃描QR CODE，下次登入需要</p>
                                 <div id="qrcode-img"></div>
                             </div>
                             <div style="margin: 40px 0 0px;">
-                                <a href="" id="btn_qrcode" class="btn btn-secondary">回首頁</a>
+                                <a href="" id="btn_qrcode" class="btn btn-secondary">儲存後，回首頁</a>
                             </div>
                         </div>
                     </form>
@@ -104,6 +105,7 @@
                             $('#qrcode_div').show()
                         } else if(response.show_div === 'otp') {
                             $('#otp_div').show()
+                            $('#otp_div input[name=google2fa_otp]').focus()
                         }
                     })
                 });

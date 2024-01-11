@@ -44,7 +44,6 @@ class LoginController extends Controller
             } 
             else 
             {
-                
                 $google2fa  = new Google2FA();
                 $google2fa_key = $User['google2fa_secret'];
 

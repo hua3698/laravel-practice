@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use DateTimeInterface;
+use PragmaRX\Google2FAQRCode\Google2FA;
 
 
 class User extends Authenticatable
@@ -60,5 +61,29 @@ class User extends Authenticatable
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function removeGoogleKeyALL()
+    {
+        $array = [
+            'google2fa_secret' => '', 
+            'is_qrcode_show' => 0,
+        ];
+
+        return $this::query()->update($array);
+
+    }
+
+    public function generateGoogleKeyALL()
+    {
+        foreach ($this::all() as $user) {
+
+            $google2fa  = new Google2FA();
+            $google2fa_key = $google2fa->generateSecretKey();
+
+            $user->update([
+                'google2fa_secret' => $google2fa_key
+            ]);
+        }
     }
 }

@@ -20,9 +20,9 @@
         <span class="path"><a href="{{ url('log/list?page=1') }}">機房日誌</a></span>
         <span class="path">
             @if (isset($title))
-                {{ $title }}
+            {{ $title }}
             @else
-                新增機房日誌
+            新增機房日誌
             @endif
         </span>
     </div>
@@ -45,152 +45,159 @@
         <div class="title">
             <p>
                 @if (isset($title))
-                    {{ $title }}
+                {{ $title }}
                 @else
-                    新增機房日誌
+                新增機房日誌
                 @endif
             </p>
         </div>
         <div class="table_container">
             <div class="table_panel">
                 @if (isset($type) && $type == 'single')
-                    <div id="readonly">
-                        <div class="mb-3 col-12 maintain_type_div">
-                            <label for="">維護類型：</label>
-                            {{ $data['types'] }}
-                        </div>
-                        <div class="mb-3 col-4">
-                            <label for="maintain_man" class="form-label">維護人員：</label>
-                            {{ $data['maintain_man'] }}
-                        </div>
-                        <div class="mb-3 col-8"></div>
+                <div id="readonly">
+                    <div class="mb-3 col-12 maintain_type_div">
+                        <label for="">維護類型：</label>
+                        {{ $data['types'] }}
+                    </div>
+                    <div class="mb-3 col-4">
+                        <label for="maintain_man" class="form-label">維護人員：</label>
+                        {{ $data['maintain_man'] }}
+                    </div>
+                    <div class="mb-3 col-8"></div>
 
-                        <div class="mb-3 col-4">
-                            <label for="date_picker" class="form-label">維護日期：</label>
-                            {{ $data['maintain_date'] }}
-                        </div>
-                        <div class="mb-3 col-8"></div>
-                        <div class="mb-3 col-4">
-                            <label for="entrance_time" class="form-label">進入時間：</label>
-                            {{ $data['enter_time'] }}
-                        </div>
-                        <div class="mb-3 col-4">
-                            <label for="exit_time" class="form-label">離開時間：</label>
-                            {{ $data['exit_time'] }}
-                        </div>
-                        <div class="mb-3 col-4"></div>
+                    <div class="mb-3 col-4">
+                        <label for="date_picker" class="form-label">維護日期：</label>
+                        {{ $data['maintain_date'] }}
+                    </div>
+                    <div class="mb-3 col-8"></div>
+                    <div class="mb-3 col-4">
+                        <label for="entrance_time" class="form-label">進入時間：</label>
+                        {{ $data['enter_time'] }}
+                    </div>
+                    <div class="mb-3 col-4">
+                        <label for="exit_time" class="form-label">離開時間：</label>
+                        {{ $data['exit_time'] }}
+                    </div>
+                    <div class="mb-3 col-4"></div>
 
-                        <div class="mb-3">
-                            <label for="work_desc" class="form-label">工作內容：</label>
-                            <textarea name="work_desc" id="work_desc" cols="150" rows="20">
-                                {{ $data['maintain_description'] }}
-                            </textarea>
+                    <div class="mb-3">
+                        <label for="work_desc" class="form-label">工作內容：</label>
+                        <textarea name="work_desc" id="work_desc" cols="150" rows="20">
+                        {{ $data['maintain_description'] }}
+                        </textarea>
 
+                    </div>
+                    <div class="col-12 submit_div">
+                        <button id="edit_log" class="btn btn-secondary">編輯</button>
+                    </div>
+                </div>
+                @elseif (isset($type) && $type == 'edit')
+                <form id="edit_form" class="row g-3" action="{{ route('log.edit.done', $id) }}" method="POST">
+                    @csrf
+
+                    <div class="mb-3 col-12 maintain_type_div">
+                        <label for="">維護類型：</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio1" value="1" checked>
+                            <label class="form-check-label" for="inlineRadio1">日常巡視</label>
                         </div>
-                        <div class="col-12 submit_div">
-                            <button id="edit_log" class="btn btn-secondary">編輯</button>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio2" value="2">
+                            <label class="form-check-label" for="inlineRadio2">維修</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio3" value="3" disabled>
+                            <label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
                         </div>
                     </div>
-                @elseif (isset($type) && $type == 'edit')
-                    <form id="edit_form" class="row g-3" action="{{ route('log.edit.done', $id) }}" method="POST">
-                        @csrf
 
-                        <div class="mb-3 col-12 maintain_type_div">
-                            <label for="">維護類型：</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio1" value="1" checked>
-                                <label class="form-check-label" for="inlineRadio1">日常巡視</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio2" value="2">
-                                <label class="form-check-label" for="inlineRadio2">維修</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio3" value="3" disabled>
-                                <label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
-                            </div>
-                        </div>
+                    <div class="mb-3 col-4">
+                        <label for="maintain_man" class="form-label">維護人員：</label>
+                        <input type="text" class="form-control" name="maintain_man" id="maintain_man" value="{{ $data['maintain_man'] }}">
+                    </div>
+                    <div class="mb-3 col-8"></div>
 
-                        <div class="mb-3 col-4">
-                            <label for="maintain_man" class="form-label">維護人員：</label>
-                            <input type="text" class="form-control" name="maintain_man" id="maintain_man" value="{{ $data['maintain_man'] }}">
-                        </div>
-                        <div class="mb-3 col-8"></div>
+                    <div class="mb-3 col-4">
+                        <label for="date_picker" class="form-label">維護日期：</label>
+                        <input id="date_picker" class="form-control" type="text" name="maintain_date" value="{{ $data['maintain_date'] }}">
+                    </div>
+                    <div class="mb-3 col-8"></div>
+                    <div class="mb-3 col-4">
+                        <label for="entrance_time" class="form-label">進入時間：</label>
+                        <input type="text" class="form-control" id="entrance_time" name="entrance_time" value="{{ $data['enter_time'] }}">
+                    </div>
+                    <div class="mb-3 col-4">
+                        <label for="exit_time" class="form-label">離開時間：</label>
+                        <input type="text" class="form-control" id="exit_time" name="exit_time" value="{{ $data['exit_time'] }}">
+                    </div>
+                    <div class="mb-3 col-4"></div>
 
-                        <div class="mb-3 col-4">
-                            <label for="date_picker" class="form-label">維護日期：</label>
-                            <input id="date_picker" class="form-control" type="text" name="maintain_date" value="{{ $data['maintain_date'] }}">
-                        </div>
-                        <div class="mb-3 col-8"></div>
-                        <div class="mb-3 col-4">
-                            <label for="entrance_time" class="form-label">進入時間：</label>
-                            <input type="text" class="form-control" id="entrance_time" name="entrance_time" value="{{ $data['enter_time'] }}">
-                        </div>
-                        <div class="mb-3 col-4">
-                            <label for="exit_time" class="form-label">離開時間：</label>
-                            <input type="text" class="form-control" id="exit_time" name="exit_time" value="{{ $data['exit_time'] }}">
-                        </div>
-                        <div class="mb-3 col-4"></div>
-
-                        <div class="mb-3">
-                            <label for="work_desc" class="form-label">工作內容：</label>
-                            <textarea name="work_desc" id="work_desc" cols="150" rows="20">
-                                {{ $data['maintain_description'] }}
-                            </textarea>
-                        </div>
-                        <div class="col-12 submit_div">
-                            <button type="submit" class="btn btn-primary">確認修改</button>
-                        </div>
-                    </form>
+                    <div class="mb-3">
+                        <label for="work_desc" class="form-label">工作內容：</label>
+                        <textarea name="work_desc" id="work_desc" cols="150" rows="20">
+                        {{ $data['maintain_description'] }}
+                        </textarea>
+                    </div>
+                    <div class="col-12 submit_div">
+                        <button type="submit" class="btn btn-primary">確認修改</button>
+                    </div>
+                </form>
                 @else
-                    <form class="row g-3" action="{{ url('log/create') }}" method="POST">
-                        @csrf
+                <form class="row g-3" action="{{ url('log/create') }}" method="POST">
+                    @csrf
 
-                        <div class="mb-3 col-12 maintain_type_div">
-                            <label for="">維護類型：</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio1" value="1" checked>
-                                <label class="form-check-label" for="inlineRadio1">日常巡視</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio2" value="2">
-                                <label class="form-check-label" for="inlineRadio2">維修</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio3" value="3" disabled>
-                                <label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
-                            </div>
+                    <div class="mb-3 col-12 maintain_type_div">
+                        <label for="">維護類型：</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio1" value="1" checked>
+                            <label class="form-check-label" for="inlineRadio1">日常巡視</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio2" value="2">
+                            <label class="form-check-label" for="inlineRadio2">維修</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="maintain_type" id="inlineRadio3" value="3" disabled>
+                            <label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 col-4">
+                        <label for="maintain_man" class="form-label">維護人員：</label>
+                        <input type="text" class="form-control" name="maintain_man" id="maintain_man">
+                    </div>
+                    <div class="mb-3 col-8"></div>
+
+                    <div class="mb-3 col-4">
+                        <label for="date_picker" class="form-label">維護日期：</label>
+                        <input id="date_picker" class="form-control" type="text" name="maintain_date" value="" />
+                    </div>
+                    <div class="mb-3 col-8"></div>
+                    <div class="mb-3 col-4">
+                        <label for="entrance_time" class="form-label">進入時間：</label>
+                        <input type="text" class="form-control" id="entrance_time" name="entrance_time">
+                    </div>
+                    <div class="mb-3 col-4">
+                        <label for="exit_time" class="form-label">離開時間：</label>
+                        <input type="text" class="form-control" id="exit_time" name="exit_time">
+                    </div>
+                    <div class="mb-3 col-4"></div>
+
+                    <div class="mb-3">
+
+                        <div class="dx-viewport demo-container">
+                            <div class="html-editor"></div>
+
+
                         </div>
 
-                        <div class="mb-3 col-4">
-                            <label for="maintain_man" class="form-label">維護人員：</label>
-                            <input type="text" class="form-control" name="maintain_man" id="maintain_man">
-                        </div>
-                        <div class="mb-3 col-8"></div>
-
-                        <div class="mb-3 col-4">
-                            <label for="date_picker" class="form-label">維護日期：</label>
-                            <input id="date_picker" class="form-control" type="text" name="maintain_date" value="" />
-                        </div>
-                        <div class="mb-3 col-8"></div>
-                        <div class="mb-3 col-4">
-                            <label for="entrance_time" class="form-label">進入時間：</label>
-                            <input type="text" class="form-control" id="entrance_time" name="entrance_time">
-                        </div>
-                        <div class="mb-3 col-4">
-                            <label for="exit_time" class="form-label">離開時間：</label>
-                            <input type="text" class="form-control" id="exit_time" name="exit_time">
-                        </div>
-                        <div class="mb-3 col-4"></div>
-
-                        <div class="mb-3">
-                            <label for="work_desc" class="form-label">工作內容：</label>
-                            <textarea name="work_desc" id="work_desc" cols="150" rows="20"></textarea>
-                        </div>
-                        <div class="col-12 submit_div">
-                            <button type="submit" class="btn btn-primary">確認送出</button>
-                        </div>
-                    </form>
+                        <label for="work_desc" class="form-label">工作內容：</label>
+                        <textarea name="work_desc" id="work_desc" cols="150" rows="20"></textarea>
+                    </div>
+                    <div class="col-12 submit_div">
+                        <button type="submit" class="btn btn-primary">確認送出</button>
+                    </div>
+                </form>
                 @endif
             </div>
         </div>
@@ -204,31 +211,123 @@
 
 @section('script_js')
 
-<script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
+<!-- <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script> -->
+
+<!-- DevExtreme theme -->
+<link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/23.2.3/css/dx.light.css">
+
+<!-- DevExtreme libraries (reference only one of them) -->
+<script src="https://unpkg.com/devextreme-quill@1.6.2/dist/dx-quill.min.js"></script>
+<script type="text/javascript" src="https://cdn3.devexpress.com/jslib/23.2.3/js/dx.all.js"></script>
+
 <script>
+    $(() => {
+        const editor = $('.html-editor').dxHtmlEditor({
+            height: 725,
+            // value: markup,
+            imageUpload: {
+                tabs: ['file', 'url'],
+                fileUploadMode: 'base64',
+            },
+            toolbar: {
+                items: [
+                    'undo', 'redo', 'separator',
+                    {
+                        name: 'size',
+                        acceptedValues: ['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt'],
+                        options: {
+                            inputAttr: {
+                                'aria-label': 'Font size'
+                            }
+                        },
+                    },
+                    {
+                        name: 'font',
+                        acceptedValues: ['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana'],
+                        options: {
+                            inputAttr: {
+                                'aria-label': 'Font family'
+                            }
+                        },
+                    },
+                    'separator', 'bold', 'italic', 'strike', 'underline', 'separator',
+                    'alignLeft', 'alignCenter', 'alignRight', 'alignJustify', 'separator',
+                    'orderedList', 'bulletList', 'separator',
+                    {
+                        name: 'header',
+                        acceptedValues: [false, 1, 2, 3, 4, 5],
+                        options: {
+                            inputAttr: {
+                                'aria-label': 'Header'
+                            }
+                        },
+                    }, 'separator',
+                    'color', 'background', 'separator',
+                    'link', 'image', 'separator',
+                    'clear', 'codeBlock', 'blockquote', 'separator',
+                    'insertTable', 'deleteTable',
+                    'insertRowAbove', 'insertRowBelow', 'deleteRow',
+                    'insertColumnLeft', 'insertColumnRight', 'deleteColumn',
+                ],
+            },
+            mediaResizing: {
+                enabled: true,
+            },
+        }).dxHtmlEditor('instance');
+
+        $('#multiline').dxCheckBox({
+            text: 'Multiline toolbar',
+            value: true,
+            onValueChanged(e) {
+                editor.option('toolbar.multiline', e.value);
+            },
+        });
+
+        $('#image-uploader-tabs').dxSelectBox({
+            items: tabs,
+            value: tabs[2].value,
+            inputAttr: {
+                'aria-label': 'Tab'
+            },
+            valueExpr: 'value',
+            displayExpr: 'name',
+            onValueChanged: (e) => {
+                editor.option('imageUpload.tabs', e.value);
+            },
+        });
+    });
+
+
+    const tabs = [{
+        name: 'From This Device',
+        value: ['file']
+    }, {
+        name: 'From the Web',
+        value: ['url']
+    }, {
+        name: 'Both',
+        value: ['file', 'url']
+    }];
+
     $(function() {
 
-        const editor = ClassicEditor
-            .create(document.querySelector('#work_desc'), {
-                width: "400px",
-                height: "500px"
-            })
-            .then(editor => {
-                console.log(editor);
-                if( $('#readonly').length ) {
-                    editor.enableReadOnlyMode('#work_desc')
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-            
+        // const editor = ClassicEditor
+        //     .create(document.querySelector('#work_desc'), {
+        //         width: "400px",
+        //         height: "500px"
+        //     })
+        //     .then(editor => {
+        //         console.log(editor);
+        //         if( $('#readonly').length ) {
+        //             editor.enableReadOnlyMode('#work_desc')
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.error(error);
+        //     });
 
-        // editor.setData('<p>Modified from the console!</p>');
-        // var instance = sceditor.instance(textarea);
-        // instance.val('aaa');
 
-        let set_datepicker = function () {
+        let set_datepicker = function() {
             let today = new Date();
             let str_today = dateFormat(today)
 
@@ -272,7 +371,7 @@
             });
         }
 
-        let set_event = function () {
+        let set_event = function() {
             $('.right_box')
                 .on('click', '.error_msg_close', function() {
                     $(this).parent().hide()
@@ -289,7 +388,6 @@
         set_datepicker()
         set_event()
     })
-
 </script>
 
 @endsection

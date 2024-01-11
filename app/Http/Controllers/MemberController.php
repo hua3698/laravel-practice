@@ -20,28 +20,18 @@ class MemberController extends Controller
     public function showMemberList()
     {
         $users = User::paginate(self::DATA_PER_PAGE);
-        // ->get();
 
         $arrUsers = $users->toArray();
 
         $google2fa  = new Google2FA();
 
-        foreach ($arrUsers['data'] as $key => $user) {
-            $UserName = $user['name'];
-            $UserEmail = $user['email'];
-            $secretKey = $user['google2fa_secret'];
+        foreach ($arrUsers['data'] as $key => $user) 
+        {
+            $role = $this->switchColumnName('role', $user['role']);
+            $is_enable = $this->switchColumnName('is_qrcode_show', $user['is_qrcode_show']);
 
-            $inlineUrl = $google2fa->getQRCodeInline(
-                $UserName,
-                $UserEmail,
-                $secretKey,
-                100
-            );
-
-            $role = $this->switchRoleName($user['role']);
-
-            $arrUsers['data'][$key]['qrcode'] = $inlineUrl;
             $arrUsers['data'][$key]['role'] = $role;
+            $arrUsers['data'][$key]['is_enable_qrcode'] = $is_enable;
 
         }
 
@@ -123,15 +113,35 @@ class MemberController extends Controller
         }
     }
 
-    private function switchRoleName($role_eng)
+    public function renewMemberKey()
     {
-        if($role_eng == 'normal') {
-            $role_chinese = '一般使用者';
-        } else {
-            $role_chinese = '管理員';
-        }
+        $user = new User();
 
-        return $role_chinese;
+        $user->removeGoogleKeyALL();
+        $user->generateGoogleKeyALL();
+    }
+
+    private function switchColumnName($column, $value)
+    {
+        $name = '';
+        switch ($column) {
+            case 'role':
+                if($value == 'normal') {
+                    $name = '一般使用者';
+                } else {
+                    $name = '管理員';
+                }
+                break;
+
+            case 'is_qrcode_show':
+                if($value == 1) {
+                    $name = '已啟用';
+                } else {
+                    $name = '未啟用';
+                }
+            break;
+        }
+        return $name;
     }
 
     private function verifyUserRole()

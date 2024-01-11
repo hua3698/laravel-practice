@@ -95,8 +95,8 @@
                 contentType: 'application/json',
                 data: JSON.stringify(data),
             }).done(function (re) {
-                // alert('修改成功')
-                // location.reload()
+                alert('修改成功')
+                location.reload()
             }).fail(function (msg) {
                 console.log(msg)
                 alert('系統錯誤')

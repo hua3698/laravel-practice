@@ -16,6 +16,9 @@
     <div class="main">
         <div class="title">
             <p>會員管理</p>
+            <div>
+                <button id="renewKey" type="button" class="btn btn-outline-secondary">重新產生key</button>
+            </div>
         </div>
 
         <div class="table_content">
@@ -26,10 +29,9 @@
                         <th scope="col">登入帳號</th>
                         <th scope="col">會員信箱</th>
                         <th scope="col">帳號新增時間</th>
-                        <th scope="col">google 2FA</th>
+                        <th scope="col">Key</th>
+                        <th scope="col">是否已啟用驗證</th>
                         <th scope="col">會員身分</th>
-                        <th scope="col">帳號狀態</th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,17 +42,9 @@
                         <td class="">{{ $list['name'] }}</td>
                         <td class="">{{ $list['email'] }}</td>
                         <td>{{ $list['created_at'] }}</td>
-                        <td class="qrcode-td">
-                            <span class="qrcode">2FA QRCode</span>
-                            <div class="qrcode-img">{!! $list['qrcode'] !!}</div>
-                        </td>
+                        <td>{{ $list['google2fa_secret'] }}</td>
+                        <td>{{ $list['is_enable_qrcode'] }}</td>
                         <td>{{ $list['role'] }}</td>
-                        <td>
-                            <button type="button" class="btn btn-secondary btn-sm">Secondary</button>
-                        </td>
-                        <td>
-                            <i class="bi bi-ban"></i>停用帳號
-                        </td>
                     </tr>
                     @endforeach
                     @endif
@@ -103,8 +97,25 @@
 
 <script>
     $(function() {
-        // delete modal
+        $('#renewKey').on('click', function () {
 
+            $.ajax({
+                type: 'PUT',
+                url: "{{ route('memberRenewKey') }}",
+                contentType: 'application/json',
+                // data: JSON.stringify(data),
+            }).done(function (re) {
+                alert('修改成功')
+                location.reload()
+            }).fail(function (msg) {
+                console.log(msg)
+                alert('系統錯誤')
+                // location.href = "{{ url('home') }}"
+            }).always(function (msg) {
+                console.log('ALWAYS');
+            });
+
+        })
     })
 </script>
 

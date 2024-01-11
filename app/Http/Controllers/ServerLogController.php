@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ServerRoomLog;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use stdClass;
@@ -17,35 +18,49 @@ class ServerLogController extends Controller
     // 新增機房日誌
     public function createLog(Request $request)
     {
-        // $request->dd();
+        $request->dd();
+        try
+        {
+            $validated = $request->validate([
+                'maintain_type' => 'required|integer',
+                'maintain_man' => 'required|string',
+                'maintain_date' => 'required|string',
+                'entrance_time' => 'required|string',
+                'exit_time' => 'required|string',
+                'work_desc' => 'required|string',
+            ]);
 
-        $validated = $request->validate([
-            'maintain_type' => 'required|integer',
-            'maintain_man' => 'required|string',
-            'maintain_date' => 'required|string',
-            'entrance_time' => 'required|string',
-            'exit_time' => 'required|string',
-            'work_desc' => 'required|string',
-        ]);
+            if(!preg_match('/\d{2}\:\d{2}/', $validated['entrance_time'])) {
+                // throw new Exception('error', 400);
+            }
 
-        $seq_number = $this->getSequenceNo();
+            if(!preg_match('\d{2}\:\d{2}', $validated['exit_time'])) {
+                // throw new Exception('error', 400);
+            }
 
-        $server_log = new ServerRoomLog();
+            $seq_number = $this->getSequenceNo();
 
-        $server_log->login_user_id = 5;
-        $server_log->server_log_id = $seq_number;
-        $server_log->maintain_man = $validated['maintain_man'];
-        $server_log->log_status = 1;
-        $server_log->types = $validated['maintain_type'];
-        $server_log->maintain_description = $validated['work_desc'];
-        $server_log->remark = '';
-        $server_log->maintain_date = $validated['maintain_date'];
-        $server_log->enter_time = $validated['entrance_time'];
-        $server_log->exit_time = $validated['exit_time'];
+            $server_log = new ServerRoomLog();
 
-        $server_log->save();
+            $server_log->login_user_id = 5;
+            $server_log->server_log_id = $seq_number;
+            $server_log->maintain_man = $validated['maintain_man'];
+            $server_log->log_status = 1;
+            $server_log->types = $validated['maintain_type'];
+            $server_log->maintain_description = $validated['work_desc'];
+            $server_log->remark = '';
+            $server_log->maintain_date = $validated['maintain_date'];
+            $server_log->enter_time = $validated['entrance_time'];
+            $server_log->exit_time = $validated['exit_time'];
 
-        return redirect()->route('log_list', ['create_success' => '新增成功']);
+            $server_log->save();
+
+            return redirect()->route('log_list', ['create_success' => '新增成功']);
+        }
+        catch (Exception $e)
+        {
+            abort($e->getCode(), $e->getMessage());
+        }
     }
 
     // 顯示機房日誌列表
@@ -174,4 +189,5 @@ class ServerLogController extends Controller
 
         return $today . str_pad($latestLog->id + 1, 4, "0", STR_PAD_LEFT);
     }
+
 }
