@@ -28,7 +28,6 @@ class User extends Authenticatable
         'password',
         'google2fa_secret',
         'is_qrcode_show',
-        'member_status',
         'role'
     ];
 

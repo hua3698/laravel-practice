@@ -39,12 +39,12 @@
     <div class="bread_crumb">
         <i class="bi bi-house-fill"></i>
         <span class="path"><a href="{{ url('home') }}">首頁</a></span>
-        <span class="path"><a href="{{ url('log/list?page=1') }}">會員</a></span>
+        <span class="path"><a href="{{ url('log/list?page=1') }}">使用者</a></span>
         <span class="path">
             @if (isset($title))
             {{ $title }}
             @else
-            新增會員
+            新增使用者
             @endif
         </span>
     </div>
@@ -63,7 +63,7 @@
                 @if (isset($title))
                 {{ $title }}
                 @else
-                新增會員
+                新增使用者
                 @endif
             </p>
         </div>
@@ -73,25 +73,25 @@
 
                 <div class="form-group row">
                     <div class="mb-3 col-4">
-                        <label for="account_name" class="form-label">會員帳號：</label>
+                        <label for="account_name" class="form-label">使用者帳號：</label>
                         <input type="text" class="form-control" name="account_name" placeholder="Username" required="">
                     </div>
                     <div class="mb-3 col-4">
-                        <label for="account_email" class="form-label">會員信箱：</label>
+                        <label for="account_email" class="form-label">使用者信箱：</label>
                         <input type="email" class="form-control" name="account_email" placeholder="Email" required="">
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="mb-3 col-4">
-                        <label for="password" class="form-label">會員密碼：</label>
+                        <label for="password" class="form-label">使用者密碼：</label>
                         <input type="password" class="form-control" name="password" placeholder="Password" required="">
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="mb-3 col-4">
-                        <label for="role" class="form-label">會員身分</label>
+                        <label for="role" class="form-label">使用者身分</label>
                         <select id="role" class="form-select">
                             <option value="normal" selected>一般使用者</option>
                             <option value="admin">管理員</option>

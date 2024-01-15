@@ -7,6 +7,7 @@ use App\Models\User; //引入user model
 use Illuminate\Support\Facades\Auth;
 use PragmaRX\Google2FAQRCode\Google2FA;
 use stdClass;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -96,6 +97,7 @@ class LoginController extends Controller
         }
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return response('login failed', 400);
         }
     }

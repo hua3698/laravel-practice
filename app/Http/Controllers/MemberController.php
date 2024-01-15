@@ -12,7 +12,6 @@ use stdClass;
 class MemberController extends Controller
 {
     const DATA_PER_PAGE = 5;
-    const _ENABLE_MEMBER = 1;
     const _HASNOT_SHOW_ = 0;
     const _NORMAL_ROLE_ = 'normal';
     const _ADMIN_ROLE_ = 'admin';
@@ -63,7 +62,6 @@ class MemberController extends Controller
             'password' => password_hash($validated['password'], PASSWORD_DEFAULT ),
             'google2fa_secret' => $google2fa_key,
             'is_qrcode_show' => self::_HASNOT_SHOW_,
-            'member_status' => self::_ENABLE_MEMBER,
             'role' => $validated['role']
         ]);
 
@@ -77,7 +75,7 @@ class MemberController extends Controller
 
     public function getMemberRightList()
     {
-        $users = User::where('member_status', self::_ENABLE_MEMBER)->get();
+        $users = User::all();
         
         $arrUsers = $users->toArray();
 

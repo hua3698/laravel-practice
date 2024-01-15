@@ -131,6 +131,8 @@
                     $.post("{{ route('validOTP') }}", post_data, function(re) {
                         if(re == 'ok') {
                             location.href =  '{{ url("home") }}';
+                        } else {
+                            alert('系統錯誤，請聯絡管理員')
                         }
 
                     })

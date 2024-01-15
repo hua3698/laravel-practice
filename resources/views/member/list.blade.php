@@ -10,12 +10,12 @@
     <div class="bread_crumb">
         <i class="bi bi-house-fill"></i>
         <span class="path"><a href="{{ url('home') }}">首頁</a></span>
-        <span class="path">會員管理</span>
+        <span class="path">使用者管理</span>
     </div>
 
     <div class="main">
         <div class="title">
-            <p>會員管理</p>
+            <p>使用者管理</p>
             <div>
                 <button id="renewKey" type="button" class="btn btn-outline-secondary">重新產生key</button>
             </div>
@@ -27,11 +27,11 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">登入帳號</th>
-                        <th scope="col">會員信箱</th>
+                        <th scope="col">使用者信箱</th>
                         <th scope="col">帳號新增時間</th>
                         <th scope="col">Key</th>
                         <th scope="col">是否已啟用驗證</th>
-                        <th scope="col">會員身分</th>
+                        <th scope="col">使用者身分</th>
                     </tr>
                 </thead>
                 <tbody>

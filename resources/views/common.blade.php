@@ -45,7 +45,7 @@
             <div class="nav">
                 <!-- <div class="nav_link"><span><a href="{{ url('home')}}">首頁</a></span></div>
                 <div class="nav_link"><span><a href="{{ url('log/list?page=1') }}">機房日誌</a></span></div>
-                <div class="nav_link"><span>會員管理</span></div> -->
+                <div class="nav_link"><span>使用者管理</span></div> -->
                 @if (session()->get('username'))
                     <div class="nav_link" style="color: #f7f7f7;">{{ session()->get('username') }}，<span><a href="{{ url('logout')}}">登出</a></span></div>
                 @else
@@ -73,17 +73,17 @@
                     </div>
                     @if ($role == 'admin')
                     <div class="main_list left_box_item" data-tag="member">
-                        <div class="item_dropdown"><a href="" class="col-9">會員管理</a><i class="bi bi-chevron-down col-3"></i>
+                        <div class="item_dropdown"><a href="" class="col-9">使用者管理</a><i class="bi bi-chevron-down col-3"></i>
                         </div>
                     </div>
                     <div class="sub_list left_box_item" data-tag="member">
-                        <div class=""><a href="{{ url('member/list') }}">會員總覽</a></div>
+                        <div class=""><a href="{{ url('member/list') }}">使用者總覽</a></div>
                     </div>
                     <div class="sub_list left_box_item" data-tag="member">
-                        <div class=""><a href="{{ url('member/create') }}">新增會員</a></div>
+                        <div class=""><a href="{{ url('member/create') }}">新增使用者</a></div>
                     </div>
                     <div class="sub_list left_box_item" data-tag="member">
-                        <div class=""><a href="{{ url('member/right') }}">會員權限管理</a></div>
+                        <div class=""><a href="{{ url('member/right') }}">使用者權限管理</a></div>
                     </div>
                     @endif
                 </div>

@@ -45,7 +45,7 @@ Route::middleware(['web', 'login'])->group(function ()
     Route::post('log/{log_id}/save', 'App\Http\Controllers\ServerLogController@saveSingleLog')->name('log.edit.done');
     Route::put('log/{log_id}/delete', 'App\Http\Controllers\ServerLogController@deleteSingleLog')->name('log.delete');
 
-    // 會員專區
+    // 使用者專區
     Route::get('member/create', function () {
         return view('member.register');
     });

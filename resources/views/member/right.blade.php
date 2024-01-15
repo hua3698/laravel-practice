@@ -10,12 +10,12 @@
     <div class="bread_crumb">
         <i class="bi bi-house-fill"></i>
         <span class="path"><a href="{{ url('home') }}">首頁</a></span>
-        <span class="path">會員權限管理</span>
+        <span class="path">使用者權限管理</span>
     </div>
 
     <div class="main">
         <div class="title">
-            <p>會員權限管理</p>
+            <p>使用者權限管理</p>
         </div>
 
         <div class="table_content">
@@ -24,7 +24,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">登入帳號</th>
-                        <th scope="col">會員信箱</th>
+                        <th scope="col">使用者信箱</th>
                         <th scope="col">管理權限</th>
                         <th scope="col"></th>
                     </tr>
