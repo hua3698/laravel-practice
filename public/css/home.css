@@ -227,7 +227,7 @@ table thead th {
 .div_pagination {
     display: flex;
     align-items: baseline;
-    position: absolute;
+    /* position: absolute; */
     bottom: 0;
     margin: 10px 0;
 }

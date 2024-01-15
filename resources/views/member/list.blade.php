@@ -16,9 +16,6 @@
     <div class="main">
         <div class="title">
             <p>使用者管理</p>
-            <div>
-                <button id="renewKey" type="button" class="btn btn-outline-secondary">重新產生key</button>
-            </div>
         </div>
 
         <div class="table_content">
@@ -32,6 +29,7 @@
                         <th scope="col">Key</th>
                         <th scope="col">是否已啟用驗證</th>
                         <th scope="col">使用者身分</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,12 +37,15 @@
                     @foreach ($list as $index => $list)
                     <tr class="member_tr">
                         <th scope="row">{{ $from + $index }}</th>
-                        <td class="">{{ $list['name'] }}</td>
-                        <td class="">{{ $list['email'] }}</td>
+                        <td class="name">{{ $list['name'] }}</td>
+                        <td class="email">{{ $list['email'] }}</td>
                         <td>{{ $list['created_at'] }}</td>
                         <td>{{ $list['google2fa_secret'] }}</td>
                         <td>{{ $list['is_enable_qrcode'] }}</td>
                         <td>{{ $list['role'] }}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-secondary renewKey">重新產生key</button>
+                        </td>
                     </tr>
                     @endforeach
                     @endif
@@ -55,18 +56,18 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="{{ route('log_list', ['page'=>$current_page -1]) }}" aria-label="Previous">
+                        <a class="page-link" href="{{ route('member_list', ['page'=>$current_page -1]) }}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
 
                     @for ($i = 1; $i <= $last_page; $i++) <li class="page-item">
-                        <a class="page-link" href="{{ route('log_list', ['page'=>$i]) }}">{{ $i }}</a>
+                        <a class="page-link" href="{{ route('member_list', ['page'=>$i]) }}">{{ $i }}</a>
                         </li>
                         @endfor
 
                         <li class="page-item">
-                            <a class="page-link" href="{{ route('log_list', ['page'=>$last_page]) }}" aria-label="Next">
+                            <a class="page-link" href="{{ route('member_list', ['page'=>$last_page]) }}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -76,10 +77,10 @@
             <div class="select_page">
                 <span>每一頁</span>
                 <!-- <div class="row"> -->
-                <select class="form-select">
-                    <option value="1" selected>5</option>
-                    <option value="2">10</option>
-                    <option value="3">20</option>
+                <select id="select_count" class="form-select">
+                    <option value="5" {{ ($count == 5 ) ? 'selected' : '' }}>5</option>
+                    <option value="10" {{ ($count == 10 ) ? 'selected' : '' }}>10</option>
+                    <option value="20" {{ ($count == 20 ) ? 'selected' : '' }}>20</option>
                 </select>
                 <!-- </div> -->
                 <span>筆, 共 {{ $total }} 筆</span>
@@ -97,24 +98,34 @@
 
 <script>
     $(function() {
-        $('#renewKey').on('click', function () {
+        $('.renewKey').on('click', function () {
+
+            let post_data = {}
+            post_data.email = $(this).closest('.member_tr').find('.email').html().trim()
 
             $.ajax({
                 type: 'PUT',
-                url: "{{ route('memberRenewKey') }}",
+                url: "{{ route('renewOne') }}",
                 contentType: 'application/json',
-                // data: JSON.stringify(data),
+                data: JSON.stringify(post_data),
             }).done(function (re) {
-                alert('修改成功')
-                location.reload()
+                if(re == 'ok') {
+                    alert('修改成功')
+                    location.reload()
+                }
             }).fail(function (msg) {
-                console.log(msg)
                 alert('系統錯誤')
+                // console.log(msg)
                 // location.href = "{{ url('home') }}"
             }).always(function (msg) {
-                console.log('ALWAYS');
+                // console.log('ALWAYS');
             });
 
+        })
+
+        $('#select_count').on('change', function () {
+            let count = $(this).val()
+            location.href = "?count=" + count
         })
     })
 </script>

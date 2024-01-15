@@ -8,6 +8,7 @@ use PragmaRX\Google2FAQRCode\Google2FA;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 use stdClass;
+use Illuminate\Support\Facades\Log;
 
 class MemberController extends Controller
 {
@@ -16,13 +17,15 @@ class MemberController extends Controller
     const _NORMAL_ROLE_ = 'normal';
     const _ADMIN_ROLE_ = 'admin';
 
-    public function showMemberList()
+    public function showMemberList(Request $request)
     {
-        $users = User::paginate(self::DATA_PER_PAGE);
+        $count = self::DATA_PER_PAGE;
+        if(isset($_GET['count'])) {
+            $count = $request['count'];
+        }
+        $users = User::paginate($count);
 
         $arrUsers = $users->toArray();
-
-        $google2fa  = new Google2FA();
 
         foreach ($arrUsers['data'] as $key => $user) 
         {
@@ -38,6 +41,7 @@ class MemberController extends Controller
         $response['list'] = $arrUsers['data'];
         $response['from'] = $arrUsers['from'];
         $response['total'] = $arrUsers['total'];
+        $response['count'] = $count; // 每頁顯示幾筆
         $response['current_page'] = $arrUsers['current_page'];
         $response['last_page'] = $arrUsers['last_page'];
 
@@ -46,31 +50,52 @@ class MemberController extends Controller
 
     public function createMember(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|max:255',
-            'role' => 'required|string'
-        ]);
+        try
+        {
+            $validated = $request->validate([
+                'name' => 'required|string|max:100',
+                'email' => 'required|string|email|unique:users',
+                'password' => 'required|string|max:255',
+                'role' => 'required|string'
+            ]);
+    
+            $google2fa  = new Google2FA();
+            $google2fa_key = $google2fa->generateSecretKey();
+    
+            $user = new User([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => password_hash($validated['password'], PASSWORD_DEFAULT ),
+                'google2fa_secret' => $google2fa_key,
+                'is_qrcode_show' => self::_HASNOT_SHOW_,
+                'role' => $validated['role']
+            ]);
+    
+            $user->save();
+    
+            $re = [];
+            $re['status'] = 'ok';
+    
+            return response($re, 201);
+        }
+        catch (Exception $e)
+        {
+            $error = $e->getMessage();
+            Log::error($error);
 
-        $google2fa  = new Google2FA();
-        $google2fa_key = $google2fa->generateSecretKey();
+            $msg = '系統錯誤，請聯絡管理員';
+            switch ($error) {
+                case 'The email has already been taken.' :
+                    $msg = '使用者信箱重覆，無法新增';
+                break;
 
-        $user = new User([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => password_hash($validated['password'], PASSWORD_DEFAULT ),
-            'google2fa_secret' => $google2fa_key,
-            'is_qrcode_show' => self::_HASNOT_SHOW_,
-            'role' => $validated['role']
-        ]);
+                default :
+                    $msg = '系統錯誤，請聯絡管理員';
+                break;
+            }
 
-        $user->save();
-
-        $re = [];
-        $re['status'] = 'ok';
-
-        return response($re, 201);
+            return response($msg, 400);
+        }
     }
 
     public function getMemberRightList()
@@ -111,12 +136,32 @@ class MemberController extends Controller
         }
     }
 
+    // 生成全部人的
     public function renewMemberKey()
     {
         $user = new User();
 
-        $user->removeGoogleKeyALL();
-        $user->generateGoogleKeyALL();
+        $user->removeGoogleKey('all');
+        $user->generateGoogleKey('all');
+    }
+
+    //個別
+    public function renewOne(Request $request)
+    {
+        try
+        {
+            $email = $request['email'];
+
+            $user = new User();
+    
+            $user->removeGoogleKey('single', $email);
+            $user->generateGoogleKey('single', $email);
+        }
+        catch (Exception $e)
+        {
+            Log::error($e->getMessage());
+            abort(404);
+        }
     }
 
     private function switchColumnName($column, $value)

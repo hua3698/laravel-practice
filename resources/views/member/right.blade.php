@@ -1,7 +1,7 @@
 @extends('common')
 
 @php
-    $login_email = session()->get('email');
+$login_email = session()->get('email');
 @endphp
 
 
@@ -30,30 +30,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                @if (!empty($list))
+                    @if (!empty($list))
                     @foreach ($list as $index => $list)
                     <tr>
                         <th scope="row">{{ 1 + $index }}</th>
                         <td>{{ $list['name'] }}</td>
                         <td class="email">{{ $list['email'] }}</td>
                         <td>
-                            @if ($list['email'] == $login_email)
-                                {{ ($list['role'] == 'normal' ) ? '一般使用者' : '管理員' }}
-                            @else
-                                <div class="">
-                                    <select class="form-select" data-role="{{ $list['role'] }}">
-                                        <option value="normal" {{ ($list['role'] == 'normal' ) ? 'selected' : '' }}>一般使用者</option>
-                                        <option value="admin" {{ ($list['role'] == 'admin' ) ? 'selected' : '' }}>管理員</option>
-                                    </select>
-                                </div>
-                            @endif
+                            <div class="">
+                                <select class="form-select" data-role="{{ $list['role'] }}">
+                                    <option value="normal" {{ ($list['role'] == 'normal' ) ? 'selected' : '' }}>一般使用者</option>
+                                    <option value="admin" {{ ($list['role'] == 'admin' ) ? 'selected' : '' }}>管理員</option>
+                                </select>
+                            </div>
                         </td>
                         <td>
                             <button type="button" class="btn btn-secondary btn-sm">儲存</button>
                         </td>
                     </tr>
                     @endforeach
-                @endif
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -70,18 +66,18 @@
 <script>
     $(function() {
         // delete modal
-        $('.form-select').on('change', function () {
+        $('.form-select').on('change', function() {
             let select_role = $(this).val()
             let origin_role = $(this).data('role')
 
-            if(select_role == origin_role) {
+            if (select_role == origin_role) {
                 $(this).closest('tr').find('button').addClass('btn-secondary').removeClass('btn-success')
             } else {
                 $(this).closest('tr').find('button').addClass('btn-success').removeClass('btn-secondary')
             }
         })
 
-        $('button').on('click', function () {
+        $('button').on('click', function() {
             let email = $(this).closest('tr').find('.email').html()
             let modify_role = $(this).closest('tr').find('.form-select').val()
 
@@ -94,14 +90,14 @@
                 url: "{{ url('member/right') }}",
                 contentType: 'application/json',
                 data: JSON.stringify(data),
-            }).done(function (re) {
+            }).done(function(re) {
                 alert('修改成功')
                 location.reload()
-            }).fail(function (msg) {
+            }).fail(function(msg) {
                 console.log(msg)
                 alert('系統錯誤')
                 location.href = "{{ url('home') }}"
-            }).always(function (msg) {
+            }).always(function(msg) {
                 console.log('ALWAYS');
             });
         })
@@ -122,4 +118,4 @@
     })
 </script>
 
-@endsection 
+@endsection

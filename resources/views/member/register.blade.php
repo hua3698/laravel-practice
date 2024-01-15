@@ -141,7 +141,15 @@
                         alert('新增成功')
                         clearInput()
                         // $('.login-qrcode-img').html(re['qrcode_img'])
+                    } else {
+                        console.log(re)
+                        alert(re)
                     }
+                })
+                .done(function(re) {
+                })
+                .fail(function(re) {
+                    alert(re.responseText)
                 })
             })
         }

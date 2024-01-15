@@ -49,10 +49,11 @@ Route::middleware(['web', 'login'])->group(function ()
     Route::get('member/create', function () {
         return view('member.register');
     });
-    Route::get('member/list', 'App\Http\Controllers\MemberController@showMemberList');
+    Route::get('member/list', 'App\Http\Controllers\MemberController@showMemberList')->name('member_list');
     Route::post('member/create', 'App\Http\Controllers\MemberController@createMember')->name('createMember');
     Route::get('member/right', 'App\Http\Controllers\MemberController@getMemberRightList');
     Route::put('member/right', 'App\Http\Controllers\MemberController@modifyMemberRight');
     Route::put('member/list/key', 'App\Http\Controllers\MemberController@renewMemberKey')->name('memberRenewKey');
+    Route::put('member/list/siglekey', 'App\Http\Controllers\MemberController@renewOne')->name('renewOne');
 
 });
