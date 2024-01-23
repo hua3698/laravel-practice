@@ -185,14 +185,14 @@
 
                     <div class="mb-3">
 
+                        <label for="work_desc" class="form-label">工作內容：</label>
                         <div class="dx-viewport demo-container">
                             <div class="html-editor"></div>
 
 
                         </div>
 
-                        <label for="work_desc" class="form-label">工作內容：</label>
-                        <textarea name="work_desc" id="work_desc" cols="150" rows="20"></textarea>
+                        <!-- <textarea name="work_desc" id="work_desc" cols="150" rows="20"></textarea> -->
                     </div>
                     <div class="col-12 submit_div">
                         <button type="submit" class="btn btn-primary">確認送出</button>
@@ -224,10 +224,18 @@
     $(() => {
         const editor = $('.html-editor').dxHtmlEditor({
             height: 725,
+            name: "work_desc",
             // value: markup,
             imageUpload: {
                 tabs: ['file', 'url'],
-                fileUploadMode: 'base64',
+                fileUploadMode: 'both',
+                uploadUrl: "{{ route('file') }}",
+                uploadDirectory: '/upload',
+                fileUploaderOptions: {
+                    uploadHeaders: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                }
             },
             toolbar: {
                 items: [
@@ -262,7 +270,7 @@
                             }
                         },
                     }, 'separator',
-                    'color', 'background', 'separator',
+                    'color', 'separator',
                     'link', 'image', 'separator',
                     'clear', 'codeBlock', 'blockquote', 'separator',
                     'insertTable', 'deleteTable',

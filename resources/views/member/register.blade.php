@@ -94,7 +94,7 @@
                         <label for="role" class="form-label">使用者身分</label>
                         <select id="role" class="form-select">
                             <option value="normal" selected>一般使用者</option>
-                            <option value="admin">管理員</option>
+                            <option value="admin">管理者</option>
                         </select>
                     </div>
                 </div>

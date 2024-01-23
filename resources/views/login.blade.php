@@ -132,7 +132,7 @@
                         if(re == 'ok') {
                             location.href =  '{{ url("home") }}';
                         } else {
-                            alert('系統錯誤，請聯絡管理員')
+                            alert('系統錯誤，請聯絡管理者')
                         }
 
                     })

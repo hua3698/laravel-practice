@@ -107,10 +107,10 @@
             <div class="select_page">
                 <span>每一頁</span>
                 <!-- <div class="row"> -->
-                <select class="form-select">
-                    <option value="1" selected>5</option>
-                    <option value="2">10</option>
-                    <option value="3">20</option>
+                <select id="select_count" class="form-select">
+                    <option value="5" {{ ( $count == 5 ) ? 'selected' : '' }}>5</option>
+                    <option value="10" {{ ( $count == 10 ) ? 'selected' : '' }}>10</option>
+                    <option value="20" {{ ( $count == 20 ) ? 'selected' : '' }}>20</option>
                 </select>
                 <!-- </div> -->
                 <span>筆, 共 {{ $total }} 筆</span>
@@ -283,6 +283,12 @@
                 }
 
                 active_calendar = 1
+            })
+
+        $('#select_count')
+            .on('change', function () {
+                let count = $(this).val()
+                location.href = "?count=" + count
             })
     })
 </script>

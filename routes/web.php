@@ -56,4 +56,5 @@ Route::middleware(['web', 'login'])->group(function ()
     Route::put('member/list/key', 'App\Http\Controllers\MemberController@renewMemberKey')->name('memberRenewKey');
     Route::put('member/list/siglekey', 'App\Http\Controllers\MemberController@renewOne')->name('renewOne');
 
+    Route::post('file/upload', 'App\Http\Controllers\MemberController@showMemberList')->name('file');
 });

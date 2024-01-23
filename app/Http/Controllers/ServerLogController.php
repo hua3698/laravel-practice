@@ -66,10 +66,14 @@ class ServerLogController extends Controller
     // 顯示機房日誌列表
     public function showLogList(Request $request)
     {
-        Log::debug('An informational message.');
+        $count = self::DATA_PER_PAGE;
+        if(isset($_GET['count'])) {
+            $count = $request['count'];
+        }
+
         $server_log = ServerRoomLog::where('log_status', self::LOG_STATUS_SHOW)
                     ->orderByDesc('created_at')
-                    ->paginate(self::DATA_PER_PAGE);
+                    ->paginate($count);
                     // ->get();
                     
         $server_log = $server_log->toArray();
@@ -78,6 +82,7 @@ class ServerLogController extends Controller
         $response['lists'] = $server_log['data'];
         $response['from'] = $server_log['from'];
         $response['total'] = $server_log['total'];
+        $response['count'] = $count; // 每頁顯示幾筆
         $response['current_page'] = $server_log['current_page'];
         $response['last_page'] = $server_log['last_page'];
 

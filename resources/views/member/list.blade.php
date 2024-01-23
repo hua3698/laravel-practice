@@ -27,9 +27,10 @@
                         <th scope="col">使用者信箱</th>
                         <th scope="col">帳號新增時間</th>
                         <th scope="col">Key</th>
+                        <th>reset button</th>
+                        <th>reset時間</th>
                         <th scope="col">是否已啟用驗證</th>
                         <th scope="col">使用者身分</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,11 +42,12 @@
                         <td class="email">{{ $list['email'] }}</td>
                         <td>{{ $list['created_at'] }}</td>
                         <td>{{ $list['google2fa_secret'] }}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-secondary renewKey">reset key</button>
+                        </td>
+                        <td>{{ $list['updated_at'] }}</td>
                         <td>{{ $list['is_enable_qrcode'] }}</td>
                         <td>{{ $list['role'] }}</td>
-                        <td>
-                            <button type="button" class="btn btn-outline-secondary renewKey">重新產生key</button>
-                        </td>
                     </tr>
                     @endforeach
                     @endif
@@ -109,10 +111,8 @@
                 contentType: 'application/json',
                 data: JSON.stringify(post_data),
             }).done(function (re) {
-                if(re == 'ok') {
-                    alert('修改成功')
-                    location.reload()
-                }
+                alert('修改成功')
+                location.reload()
             }).fail(function (msg) {
                 alert('系統錯誤')
                 // console.log(msg)

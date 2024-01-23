@@ -81,16 +81,20 @@ class MemberController extends Controller
         catch (Exception $e)
         {
             $error = $e->getMessage();
-            Log::error($error);
+            Log::error(sprintf('[%s] %s', __METHOD__, $e->getMessage()));
 
-            $msg = '系統錯誤，請聯絡管理員';
+            $msg = '系統錯誤，請聯絡管理者';
             switch ($error) {
+                case 'The email field must be a valid email address.' :
+                    $msg = '使用者信箱格式錯誤';
+                break;
+
                 case 'The email has already been taken.' :
                     $msg = '使用者信箱重覆，無法新增';
                 break;
 
                 default :
-                    $msg = '系統錯誤，請聯絡管理員';
+                    $msg = '系統錯誤，請聯絡管理者';
                 break;
             }
 
@@ -159,7 +163,7 @@ class MemberController extends Controller
         }
         catch (Exception $e)
         {
-            Log::error($e->getMessage());
+            Log::error(sprintf('[%s] %s', __METHOD__, $e->getMessage()));
             abort(404);
         }
     }
@@ -172,7 +176,7 @@ class MemberController extends Controller
                 if($value == 'normal') {
                     $name = '一般使用者';
                 } else {
-                    $name = '管理員';
+                    $name = '管理者';
                 }
                 break;
 

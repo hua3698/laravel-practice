@@ -40,7 +40,7 @@ $login_email = session()->get('email');
                             <div class="">
                                 <select class="form-select" data-role="{{ $list['role'] }}">
                                     <option value="normal" {{ ($list['role'] == 'normal' ) ? 'selected' : '' }}>一般使用者</option>
-                                    <option value="admin" {{ ($list['role'] == 'admin' ) ? 'selected' : '' }}>管理員</option>
+                                    <option value="admin" {{ ($list['role'] == 'admin' ) ? 'selected' : '' }}>管理者</option>
                                 </select>
                             </div>
                         </td>

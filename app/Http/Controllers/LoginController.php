@@ -59,6 +59,11 @@ class LoginController extends Controller
 
                 $response->show_div = 'qrcode';
                 $response->qrcode_img = $qrcode_img;
+
+                session()->put('username', $request->name);
+                session()->put('email', $User['email']);
+                session()->put('role', $User['role']);
+
             }
 
             return response(json_encode($response), 200);
@@ -97,7 +102,7 @@ class LoginController extends Controller
         }
         catch (\Exception $e) 
         {
-            Log::error($e->getMessage());
+            Log::error(sprintf('[%s] %s', __METHOD__, $e->getMessage()));
             return response('login failed', 400);
         }
     }
