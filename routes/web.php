@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ServerLogController;
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +28,10 @@ Route::get('greet', function () {
     return 'hello world';
 });
 
-Route::get('login', 'App\Http\Controllers\LoginController@checkIsLogin')->name('login');
-Route::post('signIn', 'App\Http\Controllers\LoginController@signIn')->name('signIn');
-Route::post('validOTP', 'App\Http\Controllers\LoginController@validOTP')->name('validOTP');
-Route::get('logout', 'App\Http\Controllers\LoginController@logout');
+Route::get('login', [LoginController::class, 'checkIsLogin'])->name('login');
+Route::post('signIn', [LoginController::class, 'signIn'])->name('signIn');
+Route::post('validOTP', [LoginController::class, 'validOTP'])->name('validOTP');
+Route::get('logout', [LoginController::class, 'logout']);
 
 Route::middleware(['web', 'login'])->group(function () 
 {
@@ -37,24 +40,25 @@ Route::middleware(['web', 'login'])->group(function ()
         return view('log.form');
     })->name('log_form');
 
-    Route::post('log/create', 'App\Http\Controllers\ServerLogController@createLog')->name('createLog');
-    Route::get('log/list', 'App\Http\Controllers\ServerLogController@showLogList')->name('log_list');
-    Route::get('log/search', 'App\Http\Controllers\ServerLogController@searchLogList')->name('')->name('log/search');
-    Route::get('log/{log_id}', 'App\Http\Controllers\ServerLogController@showSingleLog');
-    Route::get('log/{log_id}/edit', 'App\Http\Controllers\ServerLogController@editSingleLog')->name('log.edit');
-    Route::post('log/{log_id}/save', 'App\Http\Controllers\ServerLogController@saveSingleLog')->name('log.edit.done');
-    Route::put('log/{log_id}/delete', 'App\Http\Controllers\ServerLogController@deleteSingleLog')->name('log.delete');
+    Route::post('log/create', [ServerLogController::class, 'createLog'])->name('createLog');
+    Route::get('log/list', [ServerLogController::class, 'showLogList'])->name('log_list');
+    Route::get('log/search', [ServerLogController::class, 'searchLogList'])->name('')->name('log/search');
+    Route::get('log/{log_id}', [ServerLogController::class, 'showSingleLog']);
+    Route::get('log/{log_id}/edit', [ServerLogController::class, 'editSingleLog'])->name('log.edit');
+    Route::post('log/{log_id}/save', [ServerLogController::class, 'saveSingleLog'])->name('log.edit.done');
+    Route::put('log/{log_id}/delete', [ServerLogController::class, 'deleteSingleLog'])->name('log.delete');
 
     // 使用者專區
     Route::get('member/create', function () {
         return view('member.register');
     });
-    Route::get('member/list', 'App\Http\Controllers\MemberController@showMemberList')->name('member_list');
-    Route::post('member/create', 'App\Http\Controllers\MemberController@createMember')->name('createMember');
-    Route::get('member/right', 'App\Http\Controllers\MemberController@getMemberRightList');
-    Route::put('member/right', 'App\Http\Controllers\MemberController@modifyMemberRight');
-    Route::put('member/list/key', 'App\Http\Controllers\MemberController@renewMemberKey')->name('memberRenewKey');
-    Route::put('member/list/siglekey', 'App\Http\Controllers\MemberController@renewOne')->name('renewOne');
+    Route::get('member/list', [MemberController::class, 'showMemberList'])->name('member_list');
+    Route::post('member/create', [MemberController::class, 'createMember'])->name('createMember');
+    Route::get('member/right', [MemberController::class, 'getMemberRightList']);
+    Route::put('member/right', [MemberController::class, 'modifyMemberRight']);
+    Route::put('member/list/key', [MemberController::class, 'renewMemberKey'])->name('memberRenewKey');
+    Route::put('member/list/siglekey', [MemberController::class, 'renewOne'])->name('renewOne');
+    Route::delete('member', [MemberController::class, 'deleteMemberByEmail'])->name('delMember');
 
-    Route::post('file/upload', 'App\Http\Controllers\MemberController@showMemberList')->name('file');
+    Route::post('file/upload', [MemberController::class, 'showMemberList'])->name('file');
 });

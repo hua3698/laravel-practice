@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Exception;
 use stdClass;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
@@ -23,7 +24,7 @@ class MemberController extends Controller
         if(isset($_GET['count'])) {
             $count = $request['count'];
         }
-        $users = User::paginate($count);
+        $users = User::orderBy('created_at', 'desc')->paginate($count);
 
         $arrUsers = $users->toArray();
 
@@ -53,15 +54,15 @@ class MemberController extends Controller
         try
         {
             $validated = $request->validate([
-                'name' => 'required|string|max:100',
+                'name' => 'required|string|max:30|unique:users',
                 'email' => 'required|string|email|unique:users',
-                'password' => 'required|string|max:255',
+                'password' => 'required|string|max:30',
                 'role' => 'required|string'
             ]);
-    
+
             $google2fa  = new Google2FA();
             $google2fa_key = $google2fa->generateSecretKey();
-    
+
             $user = new User([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -91,6 +92,10 @@ class MemberController extends Controller
 
                 case 'The email has already been taken.' :
                     $msg = '使用者信箱重覆，無法新增';
+                break;
+
+                case 'The name has already been taken.' :
+                    $msg = '使用者帳號重覆，無法新增';
                 break;
 
                 default :
@@ -160,6 +165,21 @@ class MemberController extends Controller
     
             $user->removeGoogleKey('single', $email);
             $user->generateGoogleKey('single', $email);
+        }
+        catch (Exception $e)
+        {
+            Log::error(sprintf('[%s] %s', __METHOD__, $e->getMessage()));
+            abort(404);
+        }
+    }
+
+    public function deleteMemberByEmail(Request $request)
+    {
+        try
+        {
+            $email = $request['email'];
+
+            DB::table('users')->where('email', $email)->delete();
         }
         catch (Exception $e)
         {

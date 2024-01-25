@@ -77,11 +77,11 @@
                         </div>
                     </div>
                     <div class="sub_list left_box_item" data-tag="member">
-                        <div class=""><a href="{{ url('member/list') }}">使用者總覽</a></div>
+                        <div class=""><a href="{{ url('member/list') }}">使用者管理</a></div>
                     </div>
-                    <div class="sub_list left_box_item" data-tag="member">
+                    <!-- <div class="sub_list left_box_item" data-tag="member">
                         <div class=""><a href="{{ url('member/create') }}">新增使用者</a></div>
-                    </div>
+                    </div> -->
                     <div class="sub_list left_box_item" data-tag="member">
                         <div class=""><a href="{{ url('member/right') }}">使用者權限管理</a></div>
                     </div>

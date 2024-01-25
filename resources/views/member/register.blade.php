@@ -128,7 +128,22 @@
                 let password = $('#register input[type=password]').val()
                 let role = $('#register #role').val()
 
-                if (!name || !email || !password) return
+                if (!name || !email || !password) return false;
+                if (name.length > 30) {
+                    alert('使用者帳號長度最多30')
+                    return false;
+                }
+
+                if(password.length < 8 || password.length > 30) {
+                    alert('密碼長度需大於8');
+                    return false;
+                }
+
+                let regularExpression  = /^(?=.*[0-9])(?=.*[!@#$%^&*_-])[a-zA-Z0-9!@#$%^&*_-]{8,30}$/;
+                if(!regularExpression.test(password)) {
+                    alert("密碼不合格，至少要有英文、數字、及特殊符號!@#$%^&*_-");
+                    return false;
+                }
 
                 let post_data = {}
                 post_data.name = name
@@ -140,7 +155,6 @@
                     if (re['status'] == 'ok') {
                         alert('新增成功')
                         clearInput()
-                        // $('.login-qrcode-img').html(re['qrcode_img'])
                     } else {
                         console.log(re)
                         alert(re)

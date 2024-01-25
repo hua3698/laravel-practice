@@ -163,8 +163,15 @@ body {
     color: #bbb;
 }
 
+.create_user {
+    background: #ced9e6;
+    padding: 20px 10px 0;
+    margin: 10px 0 30px;
+    border-radius: 10px;
+}
+
 .table_container {
-    height: 300px;
+    height: 270px;
     padding: 15px 30px;
 }
 
@@ -201,6 +208,29 @@ table {
 
 table thead th {
     background-color: #eee !important;
+}
+
+.member_table {
+    table-layout: fixed;
+}
+
+.member_table th:nth-of-type(1) {
+    width: 50px;
+}
+
+.member_table .name, .email, .key {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.del_member {
+    font-size: 1.5rem;
+}
+
+.del_member:hover {
+    font-size: 1.8rem;
+    cursor: pointer;
 }
 
 .error_msg {
